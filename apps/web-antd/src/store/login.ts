@@ -86,8 +86,8 @@ export const useLoginStore = defineStore('login', () => {
     let userInfoRes: null | Response<PlatformUser> = null;
     userInfoRes = await getUserInfoApi();
 
-    userStore.setUserInfo(userInfoRes?.data ?? null);
-    return userInfoRes?.data ?? null;
+    userStore.setUserInfo(userInfoRes.data ?? null);
+    return userInfoRes.data ?? null;
   }
 
   function $reset() {

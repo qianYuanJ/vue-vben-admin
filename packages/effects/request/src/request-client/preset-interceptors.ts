@@ -10,6 +10,7 @@ export const defaultResponseInterceptor = ({
   codeField = 'code',
   dataField = 'data',
   successCode = 0,
+  successMsg,
 }: {
   /** 响应数据中代表访问结果的字段名 */
   codeField: string;
@@ -17,6 +18,7 @@ export const defaultResponseInterceptor = ({
   dataField: ((response: any) => any) | string;
   /** 当codeField所指定的字段值与successCode相同时，代表接口访问成功。如果提供一个函数，则返回true代表接口访问成功 */
   successCode: ((code: any) => boolean) | number | string;
+  successMsg?: (msg: string) => void;
 }): ResponseInterceptorConfig => {
   return {
     fulfilled: (response) => {
@@ -28,6 +30,9 @@ export const defaultResponseInterceptor = ({
 
       if ((status >= 200 && status < 400) || responseData.ok) {
         if (config.responseReturn === 'data') {
+          if (successMsg && responseData.msg) {
+            successMsg(responseData.msg);
+          }
           return responseData;
         } else if (
           isFunction(successCode)
