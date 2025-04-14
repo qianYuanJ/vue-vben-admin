@@ -26,8 +26,8 @@ export const defaultResponseInterceptor = ({
         return response;
       }
 
-      if (status >= 200 && status < 400) {
-        if (config.responseReturn === 'body') {
+      if ((status >= 200 && status < 400) || responseData.ok) {
+        if (config.responseReturn === 'data') {
           return responseData;
         } else if (
           isFunction(successCode)
@@ -39,6 +39,7 @@ export const defaultResponseInterceptor = ({
             : responseData[dataField];
         }
       }
+
       throw Object.assign({}, response, { response });
     },
   };

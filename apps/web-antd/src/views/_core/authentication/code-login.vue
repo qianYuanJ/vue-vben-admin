@@ -1,17 +1,32 @@
 <script lang="ts" setup>
-import type { VbenFormSchema } from '@vben/common-ui';
-import type { Recordable } from '@vben/types';
+import type { ExtendedFormApi, VbenFormSchema } from '@vben/common-ui';
 
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 import { AuthenticationCodeLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import { getVerifyCodeApi } from '#/api';
+import { useLoginStore } from '#/store';
+
 defineOptions({ name: 'CodeLogin' });
 
-const loading = ref(false);
-const CODE_LENGTH = 6;
+const loginStore = useLoginStore();
 
+const loading = ref(false);
+const CODE_LENGTH = 4;
+
+// 新增一个变量来存储表单数据
+const authFormRef = ref<InstanceType<typeof AuthenticationCodeLogin> | null>(
+  null,
+);
+
+let formApi: ExtendedFormApi;
+onMounted(() => {
+  if (authFormRef.value) {
+    formApi = authFormRef.value.getFormApi();
+  }
+});
 const formSchema = computed((): VbenFormSchema[] => {
   return [
     {
@@ -19,12 +34,12 @@ const formSchema = computed((): VbenFormSchema[] => {
       componentProps: {
         placeholder: $t('authentication.mobile'),
       },
-      fieldName: 'phoneNumber',
+      fieldName: 'phone',
       label: $t('authentication.mobile'),
       rules: z
         .string()
         .min(1, { message: $t('authentication.mobileTip') })
-        .refine((v) => /^\d{11}$/.test(v), {
+        .refine((v) => /^1[3-9]\d{9}$/.test(v), {
           message: $t('authentication.mobileErrortip'),
         }),
     },
@@ -39,6 +54,18 @@ const formSchema = computed((): VbenFormSchema[] => {
               : $t('authentication.sendCode');
           return text;
         },
+        /** 处理发送验证码 */
+        handleSendCode: async () => {
+          // 验证字段 获取验证结果对象
+          const result = await formApi.validateField('phoneNumber');
+          // 验证通过发送验证码
+          if (result.valid) {
+            const { phone } = await formApi.getValues();
+            await getVerifyCodeApi({ mobile: phone });
+          } else {
+            throw result;
+          }
+        },
         placeholder: $t('authentication.code'),
       },
       fieldName: 'code',
@@ -49,21 +76,13 @@ const formSchema = computed((): VbenFormSchema[] => {
     },
   ];
 });
-/**
- * 异步处理登录操作
- * Asynchronously handle the login process
- * @param values 登录表单数据
- */
-async function handleLogin(values: Recordable<any>) {
-  // eslint-disable-next-line no-console
-  console.log(values);
-}
 </script>
 
 <template>
   <AuthenticationCodeLogin
+    ref="authFormRef"
     :form-schema="formSchema"
     :loading="loading"
-    @submit="handleLogin"
+    @submit="loginStore.login"
   />
 </template>
