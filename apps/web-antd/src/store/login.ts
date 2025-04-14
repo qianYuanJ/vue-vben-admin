@@ -1,60 +1,63 @@
-import type { IUserInfo, Recordable } from '@vben/types';
+import type { PlatformUser, Recordable, Response } from '@vben/types';
 
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-import { DEFAULT_HOME_PATH } from '@vben/constants';
+import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
+import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 
+import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { loginApi } from '#/api/login';
-import { router } from '#/router';
+import { getUserInfoApi, loginApi } from '#/api';
+import { $t } from '#/locales';
 
 export const useLoginStore = defineStore('login', () => {
+  const accessStore = useAccessStore();
+  const userStore = useUserStore();
+  const router = useRouter();
+
   const loginLoading = ref(false);
 
-  const login = async (
+  /**
+   * 异步处理登录操作
+   * Asynchronously handle the login process
+   * @param params 登录表单数据
+   */
+  async function login(
     params: Recordable<any>,
     onSuccess?: () => Promise<void> | void,
-  ) => {
+  ) {
     // 异步处理用户登录操作并获取 accessToken
-    const userInfo: IUserInfo | null = null;
+    let userInfo: null | PlatformUser = null;
     try {
       loginLoading.value = true;
-      const res = await loginApi(params);
-      res;
-      // console.log('🚀 ~ useLoginStore ~ res:', res);
-      onSuccess ? await onSuccess?.() : await router.push(DEFAULT_HOME_PATH);
+      const { data } = await loginApi(params);
       // 如果成功获取到 accessToken
-      // if (accessToken) {
-      //   accessStore.setAccessToken(accessToken);
+      if (data.token) {
+        accessStore.setAccessToken(data.token);
 
-      //   // 获取用户信息并存储到 accessStore 中
-      //   const [fetchUserInfoResult, accessCodes] = await Promise.all([
-      //     fetchUserInfo(),
-      //     getAccessCodesApi(),
-      //   ]);
+        userInfo = data;
 
-      //   userInfo = fetchUserInfoResult;
+        userStore.setUserInfo(userInfo);
+        accessStore.setAccessCodes([data.id]);
 
-      //   userStore.setUserInfo(userInfo);
-      //   accessStore.setAccessCodes(accessCodes);
+        if (accessStore.loginExpired) {
+          accessStore.setLoginExpired(false);
+        } else {
+          onSuccess
+            ? await onSuccess?.()
+            : await router.push(DEFAULT_HOME_PATH);
+        }
 
-      //   if (accessStore.loginExpired) {
-      //     accessStore.setLoginExpired(false);
-      //   } else {
-      //     onSuccess
-      //       ? await onSuccess?.()
-      //       : await router.push(userInfo.homePath || DEFAULT_HOME_PATH);
-      //   }
-
-      //   if (userInfo?.realName) {
-      //     notification.success({
-      //       description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
-      //       duration: 3,
-      //       message: $t('authentication.loginSuccess'),
-      //     });
-      //   }
-      // }
+        if (userInfo?.realName) {
+          notification.success({
+            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+            duration: 3,
+            message: $t('authentication.loginSuccess'),
+          });
+        }
+      }
     } finally {
       loginLoading.value = false;
     }
@@ -62,10 +65,40 @@ export const useLoginStore = defineStore('login', () => {
     return {
       userInfo,
     };
-  };
+  }
+
+  async function logout(redirect: boolean = true) {
+    resetAllStores();
+    accessStore.setLoginExpired(false);
+
+    // 回登录页带上当前路由地址
+    await router.replace({
+      path: LOGIN_PATH,
+      query: redirect
+        ? {
+            redirect: encodeURIComponent(router.currentRoute.value.fullPath),
+          }
+        : {},
+    });
+  }
+
+  async function fetchUserInfo() {
+    let userInfoRes: null | Response<PlatformUser> = null;
+    userInfoRes = await getUserInfoApi();
+
+    userStore.setUserInfo(userInfoRes?.data ?? null);
+    return userInfoRes?.data ?? null;
+  }
+
+  function $reset() {
+    loginLoading.value = false;
+  }
 
   return {
-    loginLoading,
+    $reset,
     login,
+    fetchUserInfo,
+    loginLoading,
+    logout,
   };
 });

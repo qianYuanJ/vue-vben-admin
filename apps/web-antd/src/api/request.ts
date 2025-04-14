@@ -63,13 +63,13 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   // 请求头处理
   client.addRequestInterceptor({
     fulfilled: async (config) => {
-      // const accessStore = useAccessStore();
+      const accessStore = useAccessStore();
 
-      // config.headers.Authorization = formatToken(accessStore.accessToken);
-      // config.headers['Accept-Language'] = preferences.app.locale;
+      config.headers.Authorization = formatToken(accessStore.accessToken);
+
       const tempToken =
         'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDU0MTE4M2M0NmU0MmI3ODcyYWUxOThlNGZlMDRiMSIsImlhdCI6MTY5ODgxOTE2NCwiZXhwIjoxNjk5MjY5NzUzfQ._v5Qr_QKA8etq81n0yJvE54XOwGbVHewKe7srmGStp62Z9OCTdKOGnVDgPGxJAow3bu5KWXVnVTmmkopPO650w';
-      config.headers.Authorization = tempToken; // 让每个请求携带自定义token 请根据实际情况自行修改
+      config.headers.Authorization = accessStore.accessToken ?? tempToken; // 让每个请求携带自定义token 请根据实际情况自行修改
       return config;
     },
   });

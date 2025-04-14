@@ -57,7 +57,7 @@ const formSchema = computed((): VbenFormSchema[] => {
         /** 处理发送验证码 */
         handleSendCode: async () => {
           // 验证字段 获取验证结果对象
-          const result = await formApi.validateField('phoneNumber');
+          const result = await formApi.validateField('phone');
           // 验证通过发送验证码
           if (result.valid) {
             const { phone } = await formApi.getValues();

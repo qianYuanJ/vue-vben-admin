@@ -6,7 +6,7 @@ import { useAccessStore, useUserStore } from '@vben/stores';
 import { startProgress, stopProgress } from '@vben/utils';
 
 import { accessRoutes, coreRouteNames } from '#/router/routes';
-import { useAuthStore } from '#/store';
+import { useLoginStore } from '#/store';
 
 import { generateAccess } from './access';
 
@@ -48,7 +48,7 @@ function setupAccessGuard(router: Router) {
   router.beforeEach(async (to, from) => {
     const accessStore = useAccessStore();
     const userStore = useUserStore();
-    const authStore = useAuthStore();
+    const loginStore = useLoginStore();
 
     // 基本路由，这些路由不需要进入权限拦截
     if (coreRouteNames.includes(to.name as string)) {
@@ -92,7 +92,7 @@ function setupAccessGuard(router: Router) {
 
     // 生成路由表
     // 当前登录用户拥有的角色标识列表
-    const userInfo = userStore.userInfo || (await authStore.fetchUserInfo());
+    const userInfo = userStore.userInfo || (await loginStore.fetchUserInfo());
     const userRoles = userInfo.roles ?? [];
 
     // 生成菜单和路由
