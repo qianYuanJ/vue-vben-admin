@@ -10,5 +10,12 @@
     "title": "Dashboard",
     "analytics": "Analytics",
     "workspace": "Workspace"
+  },
+  "system": {
+    "title": "System Settings",
+    "department": "Department Management",
+    "operationLog": "Operation Log",
+    "rolePermission": "Role Permission",
+    "appVersion": "APP Version Management"
   }
 }
