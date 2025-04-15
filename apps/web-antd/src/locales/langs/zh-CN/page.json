@@ -14,6 +14,7 @@
   "system": {
     "title": "系统设置",
     "department": "部门管理",
+    "employee": "员工管理",
     "operationLog": "操作日志",
     "rolePermission": "角色权限管理",
     "appVersion": "APP版本管理"

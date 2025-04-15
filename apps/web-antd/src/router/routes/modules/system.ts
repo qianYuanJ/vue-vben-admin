@@ -6,25 +6,34 @@ const routes: RouteRecordRaw[] = [
   {
     meta: {
       icon: 'lucide:settings',
-      order: 100,
+      order: 9999,
       title: $t('page.system.title'),
     },
     name: 'SystemSettings',
     path: '/system',
     children: [
       {
-        name: 'DepartmentManagement',
-        path: '/system/department',
-        component: () => import('#/views/system/department/index.vue'),
+        name: 'DeptManagement',
+        path: '/system/dept',
+        component: () => import('#/views/system/dept/list.vue'),
         meta: {
           icon: 'lucide:users',
           title: $t('page.system.department'),
         },
       },
       {
+        name: 'EmployeeManagement',
+        path: '/system/dept/employee',
+        component: () => import('#/views/system/dept/employee/list.vue'),
+        meta: {
+          hideInMenu: true,
+          title: $t('page.system.employee'),
+        },
+      },
+      {
         name: 'OperationLog',
         path: '/system/operation-log',
-        component: () => import('#/views/system/operation-log/index.vue'),
+        component: () => import('#/views/system/operation-log/list.vue'),
         meta: {
           icon: 'lucide:file-text',
           title: $t('page.system.operationLog'),

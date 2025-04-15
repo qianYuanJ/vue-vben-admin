@@ -24,7 +24,7 @@ export interface PlatformUser {
   /**
    * token过期时间
    */
-  expire: Date;
+  expire?: Date;
   factoryUphold?: FactoryUphold[];
   /**
    * 是否被分配
