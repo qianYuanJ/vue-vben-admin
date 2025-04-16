@@ -1,6 +1,11 @@
+import type { Operation, RequestListParams } from '@vben/types';
+
 import type { VbenFormSchema } from '#/adapter/form';
-import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
-import type { SystemRoleApi } from '#/api/system/role1';
+import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+
+import { unref } from 'vue';
+
+import dayjs from 'dayjs';
 
 import { $t } from '#/locales';
 
@@ -45,83 +50,109 @@ export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
-      fieldName: 'name',
-      label: $t('system.role.roleName'),
+      fieldName: 'operate_phone',
+      label: $t('system.operationLog.phone'),
     },
-    { component: 'Input', fieldName: 'id', label: $t('system.role.id') },
     {
       component: 'Select',
       componentProps: {
         allowClear: true,
         options: [
-          { label: $t('common.enabled'), value: 1 },
-          { label: $t('common.disabled'), value: 0 },
+          { label: 200, value: '200' },
+          { label: 401, value: '401' },
+          { label: 403, value: '403' },
+          { label: 404, value: '404' },
+          { label: 500, value: '500' },
         ],
       },
-      fieldName: 'status',
-      label: $t('system.role.status'),
-    },
-    {
-      component: 'Input',
-      fieldName: 'remark',
-      label: $t('system.role.remark'),
+      fieldName: 'operate_state',
+      label: $t('system.operationLog.state'),
     },
     {
       component: 'RangePicker',
-      fieldName: 'createTime',
-      label: $t('system.role.createTime'),
+      fieldName: 'create_time',
+      label: $t('system.operationLog.time'),
+      componentProps: {
+        showTime: true,
+      },
     },
   ];
 }
 
-export function useColumns<T = SystemRoleApi.SystemRole>(
-  onActionClick: OnActionClickFn<T>,
-  onStatusChange?: (newStatus: any, row: T) => PromiseLike<boolean | undefined>,
-): VxeTableGridOptions['columns'] {
+export function useColumns(): VxeTableGridOptions['columns'] {
   return [
     {
-      field: 'name',
-      title: $t('system.role.roleName'),
+      field: 'operate_type',
+      title: $t('system.operationLog.type'),
       width: 200,
     },
     {
-      field: 'id',
-      title: $t('system.role.id'),
+      field: 'operate_phone',
+      title: $t('system.operationLog.phone'),
       width: 200,
     },
     {
-      cellRender: {
-        attrs: { beforeChange: onStatusChange },
-        name: onStatusChange ? 'CellSwitch' : 'CellTag',
-      },
-      field: 'status',
-      title: $t('system.role.status'),
-      width: 100,
-    },
-    {
-      field: 'remark',
+      field: 'operate_state',
       minWidth: 100,
-      title: $t('system.role.remark'),
+      title: $t('system.operationLog.state'),
     },
     {
-      field: 'createTime',
-      title: $t('system.role.createTime'),
+      field: 'create_time',
+      title: $t('system.operationLog.time'),
       width: 200,
+      formatter: 'formatDateTime',
     },
     {
       align: 'center',
-      cellRender: {
-        attrs: {
-          nameField: 'name',
-          nameTitle: $t('system.role.name'),
-          onClick: onActionClick,
-        },
-        name: 'CellOperation',
-      },
       field: 'operation',
       fixed: 'right',
-      title: $t('system.role.operation'),
-      width: 130,
+      title: $t('system.operationLog.operation'),
+      slots: { default: 'operation' },
     },
   ];
 }
+
+// 查询参数的匹配模式
+export const OperationMap: Record<string, Operation> = {
+  operate_phone: '%',
+  operate_state: '=',
+  create_time: '=',
+};
+// 处理请求参数，create_time需要特殊处理
+export const requestParamsHandler = ({
+  formValues,
+  params,
+}: {
+  formValues: any;
+  params: RequestListParams;
+}) => {
+  const result = params;
+
+  for (const key in formValues) {
+    if (formValues[key] && !Array.isArray(formValues[key])) {
+      result.param.push({
+        field: key,
+        value: formValues[key],
+        operation: OperationMap[key],
+      });
+    }
+    if (formValues[key] && key === 'create_time') {
+      const [start, end] = unref(formValues.create_time) || [];
+      const startTime = dayjs(unref(start)).format('YYYY-MM-DD HH:mm:ss');
+      const endTime = dayjs(unref(end)).format('YYYY-MM-DD HH:mm:ss');
+      result.param.push(
+        {
+          field: key,
+          value: startTime,
+          operation: '>=',
+        },
+        {
+          field: key,
+          value: endTime,
+          operation: '<=',
+        },
+      );
+    }
+  }
+  return result;
+};

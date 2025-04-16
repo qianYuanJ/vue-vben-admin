@@ -42,7 +42,7 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'RolePermission',
         path: '/system/role',
-        component: () => import('#/views/system/role/index.vue'),
+        component: () => import('#/views/system/role/list.vue'),
         meta: {
           icon: 'lucide:shield',
           title: $t('page.system.rolePermission'),

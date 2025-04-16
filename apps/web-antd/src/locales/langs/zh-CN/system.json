@@ -8,7 +8,8 @@
     "parentDept": "上级部门",
     "remark": "备注",
     "status": "状态",
-    "title": "部门管理"
+    "title": "部门管理",
+    "deleteFieldMsg": "部门成员不为空，无法删除！"
   },
   "employee": {
     "list": "员工列表",
@@ -80,7 +81,12 @@
     "setPermissions": "授权"
   },
   "operationLog": {
-    "list": "日志列表"
+    "list": "日志列表",
+    "type": "操作类型",
+    "phone": "操作账号",
+    "state": "操作结果",
+    "time": "操作时间",
+    "operation": "操作"
   },
   "title": "系统设置"
 }

@@ -1,30 +1,23 @@
-export enum Order {
-  Asc = 'ASC',
-  Desc = 'DESC',
-}
-
 /**
  * Sort
  */
 export interface Sort {
   field: string;
-  order: Order;
+  order: 'ASC' | 'DESC';
   [property: string]: any;
 }
 
-export enum Operation {
-  Empty = '=',
-  Fluffy = '>=',
-  Indecent = '*',
-  Indigo = '%',
-  Operation = '!',
-  Prefix = 'prefix%',
-  Purple = '>',
-  Sticky = '<=',
-  Suffix = '%suffix',
-  Tentacled = '<',
-}
-
+export type Operation =
+  | '!'
+  | '%'
+  | '%suffix'
+  | '*'
+  | '<'
+  | '<='
+  | '='
+  | '>'
+  | '>='
+  | 'prefix%';
 /**
  * SearchCriteria
  */

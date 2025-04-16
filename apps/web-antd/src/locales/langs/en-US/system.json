@@ -8,7 +8,8 @@
     "createTime": "Create Time",
     "remark": "Remark",
     "operation": "Operation",
-    "parentDept": "Parent Department"
+    "parentDept": "Parent Department",
+    "deleteFieldMsg": "Department Members Are Not Empty And Cannot Be Deleted!"
   },
   "employee": {
     "list": "Employee List",
@@ -77,5 +78,13 @@
     "operation": "Operation",
     "permissions": "Permissions",
     "setPermissions": "Permissions"
+  },
+  "operationLog": {
+    "list": "Log List",
+    "type": "Operation Type",
+    "phone": "Operate Account",
+    "state": "Operation Result",
+    "time": "Operation Date",
+    "operation": "Operation"
   }
 }

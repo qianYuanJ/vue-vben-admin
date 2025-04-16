@@ -5,7 +5,7 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn } from '#/adapter/vxe-table';
 
 import { z } from '#/adapter/form';
-import { getEmployeeRoleList } from '#/api/system/role';
+import { getRoleList } from '#/api/system/role';
 import { $t } from '#/locales';
 
 /**
@@ -76,7 +76,7 @@ export function useSchema(): VbenFormSchema[] {
       componentProps: {
         mode: 'multiple',
         api: async () => {
-          const res = await getEmployeeRoleList();
+          const res = await getRoleList();
           return res.data;
         },
         class: 'w-full',

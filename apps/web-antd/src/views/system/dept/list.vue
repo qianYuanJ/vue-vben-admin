@@ -14,7 +14,7 @@ import { Plus } from '@vben/icons';
 import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteDept, getDeptList } from '#/api/system/dept';
+import { deleteDept, getDeptList, getEmployeeList } from '#/api/system/dept';
 import { $t } from '#/locales';
 
 import { useColumns } from './data';
@@ -60,8 +60,29 @@ function onDelete(row: DepartmentModel) {
     duration: 0,
     key: 'action_process_msg',
   });
+  const employeeParams = {
+    page: 1,
+    size: 10,
+    param: [{ field: 'department_id', value: row.id }],
+    sort: [],
+  };
+  getEmployeeList(employeeParams)
+    .then((res) => {
+      // 判断逻辑，比如判断是否有员工
+      const hasEmployees = res?.results?.length > 0;
 
-  deleteDept({ id: row.id })
+      if (hasEmployees) {
+        // 有员工，不能删，提示一下
+        message.warning({
+          content: $t('system.dept.deleteFieldMsg'),
+        });
+        // 返回一个 rejected promise 阻止后续执行
+        throw new Error('部门成员不为空，无法删除！');
+      } else {
+        // 没有员工才删除部门
+        return deleteDept({ id: row.id });
+      }
+    })
     .then(() => {
       message.success({
         content: $t('ui.actionMessage.deleteSuccess', [row.name]),
@@ -69,7 +90,8 @@ function onDelete(row: DepartmentModel) {
       });
       refreshGrid();
     })
-    .catch(() => {
+    .catch((error) => {
+      console.warn('操作被中断或失败:', error);
       hideLoading();
     });
 }
