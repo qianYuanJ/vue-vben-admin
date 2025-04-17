@@ -25,6 +25,7 @@ import {
   InputPassword,
   Mentions,
   notification,
+  Popconfirm,
   Radio,
   RadioGroup,
   RangePicker,
@@ -88,6 +89,7 @@ export type ComponentType =
   | 'InputNumber'
   | 'InputPassword'
   | 'Mentions'
+  | 'Popconfirm'
   | 'PrimaryButton'
   | 'Radio'
   | 'RadioGroup'
@@ -154,6 +156,7 @@ async function initComponentAdapter() {
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
+    Popconfirm,
   };
 
   // 将组件注册到全局共享状态中

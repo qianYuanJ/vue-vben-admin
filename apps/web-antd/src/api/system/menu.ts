@@ -1,4 +1,4 @@
-import type { Recordable } from '@vben/types';
+import type { MenuModel, Recordable, Response } from '@vben/types';
 
 import { requestClient } from '#/api/request';
 
@@ -94,8 +94,23 @@ export namespace SystemMenuApi {
  * 获取菜单数据列表
  */
 async function getMenuList() {
-  return requestClient.get<Array<SystemMenuApi.SystemMenu>>(
-    '/system/menu/list',
+  return requestClient.get<Response<MenuModel[]>>('/platform_menu/tree');
+}
+
+/**
+ * 修改角色的菜单权限
+ * @param data 请求参数
+ * @param data.menu_ids 菜单ID列表
+ * @param data.role_id 角色ID
+ */
+async function updateRolePermission(data: {
+  [property: string]: any;
+  menu_ids?: string[];
+  role_id?: string;
+}) {
+  return requestClient.post<Response<MenuModel[]>>(
+    '/platform_role_menu/add_update',
+    data,
   );
 }
 
@@ -155,4 +170,5 @@ export {
   isMenuNameExists,
   isMenuPathExists,
   updateMenu,
+  updateRolePermission,
 };

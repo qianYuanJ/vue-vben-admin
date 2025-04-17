@@ -1,20 +1,16 @@
 <script lang="ts" setup>
-import type { DataNode } from 'ant-design-vue/es/tree';
-
-import type { Recordable } from '@vben/types';
+import type { MenuModel, Recordable } from '@vben/types';
 
 import type { SystemRoleApi } from '#/api/system/role1';
 
-import { computed, ref } from 'vue';
+import { computed, ref, toRaw } from 'vue';
 
 import { useVbenDrawer, VbenTree } from '@vben/common-ui';
-import { IconifyIcon } from '@vben/icons';
 
 import { Spin } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { getMenuList } from '#/api/system/menu';
-import { createRole, updateRole } from '#/api/system/role1';
+import { getMenuList, updateRolePermission } from '#/api/system/menu';
 import { $t } from '#/locales';
 
 import { useFormSchema } from '../data';
@@ -28,7 +24,7 @@ const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
 });
 
-const permissions = ref<DataNode[]>([]);
+const permissions = ref<MenuModel[]>([]);
 const loadingPermissions = ref(false);
 
 const id = ref();
@@ -36,9 +32,17 @@ const [Drawer, drawerApi] = useVbenDrawer({
   async onConfirm() {
     const { valid } = await formApi.validate();
     if (!valid) return;
+    const data = drawerApi.getData<SystemRoleApi.SystemRole>();
+
     const values = await formApi.getValues();
+    const params = {
+      role_id: data.id,
+      menu_ids: toRaw(values.permissions) ?? [],
+    };
+
     drawerApi.lock();
-    (id.value ? updateRole(id.value, values) : createRole(values))
+
+    updateRolePermission(params)
       .then(() => {
         emits('success');
         drawerApi.close();
@@ -46,6 +50,14 @@ const [Drawer, drawerApi] = useVbenDrawer({
       .catch(() => {
         drawerApi.unlock();
       });
+    // (id.value ? updateRole(id.value, values) : createRole(values))
+    //   .then(() => {
+    //     emits('success');
+    //     drawerApi.close();
+    //   })
+    //   .catch(() => {
+    //     drawerApi.unlock();
+    //   });
   },
   onOpenChange(isOpen) {
     if (isOpen) {
@@ -65,12 +77,37 @@ const [Drawer, drawerApi] = useVbenDrawer({
     }
   },
 });
+function convertToVbenMenu(data: MenuModel[]) {
+  return data.map((item) => {
+    const hasChildren =
+      Array.isArray(item.children) && item.children.length > 0;
+
+    const result: any = {
+      id: item.id,
+      name: item.name!.trim(),
+      path: item.path,
+      type: hasChildren ? 'catalog' : 'menu',
+      status: 1,
+      component: item.component || (hasChildren ? undefined : item.path),
+      meta: {
+        title: item.name!.trim(),
+        icon: '#', // 这里可以做个映射表替换真实 icon
+      },
+    };
+
+    if (hasChildren) {
+      result.children = convertToVbenMenu(item.children);
+    }
+
+    return result;
+  });
+}
 
 async function loadPermissions() {
   loadingPermissions.value = true;
   try {
     const res = await getMenuList();
-    permissions.value = res as unknown as DataNode[];
+    permissions.value = convertToVbenMenu(res.data!);
   } finally {
     loadingPermissions.value = false;
   }
@@ -103,7 +140,6 @@ function getNodeClass(node: Recordable<any>) {
             :tree-data="permissions"
             multiple
             bordered
-            :default-expanded-level="2"
             :get-node-class="getNodeClass"
             v-bind="slotProps"
             value-field="id"
@@ -111,7 +147,6 @@ function getNodeClass(node: Recordable<any>) {
             icon-field="meta.icon"
           >
             <template #node="{ value }">
-              <IconifyIcon v-if="value.meta.icon" :icon="value.meta.icon" />
               {{ $t(value.meta.title) }}
             </template>
           </VbenTree>
