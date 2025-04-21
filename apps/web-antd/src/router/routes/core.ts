@@ -3,7 +3,6 @@ import type { RouteRecordRaw } from 'vue-router';
 import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
 
 import { AuthPageLayout, BasicLayout } from '#/layouts';
-import { $t } from '#/locales';
 import Login from '#/views/_core/authentication/login.vue';
 
 /** 全局404页面 */
@@ -52,7 +51,7 @@ const coreRoutes: RouteRecordRaw[] = [
         path: 'login',
         component: Login,
         meta: {
-          title: $t('page.auth.login'),
+          title: '登录',
         },
       },
       {
@@ -60,7 +59,7 @@ const coreRoutes: RouteRecordRaw[] = [
         path: 'code-login',
         component: () => import('#/views/_core/authentication/code-login.vue'),
         meta: {
-          title: $t('page.auth.codeLogin'),
+          title: '验证码登录',
         },
       },
       {
@@ -69,7 +68,7 @@ const coreRoutes: RouteRecordRaw[] = [
         component: () =>
           import('#/views/_core/authentication/qrcode-login.vue'),
         meta: {
-          title: $t('page.auth.qrcodeLogin'),
+          title: '二维码登录',
         },
       },
       {
@@ -78,7 +77,7 @@ const coreRoutes: RouteRecordRaw[] = [
         component: () =>
           import('#/views/_core/authentication/forget-password.vue'),
         meta: {
-          title: $t('page.auth.forgetPassword'),
+          title: '忘记密码',
         },
       },
       {
@@ -86,7 +85,7 @@ const coreRoutes: RouteRecordRaw[] = [
         path: 'register',
         component: () => import('#/views/_core/authentication/register.vue'),
         meta: {
-          title: $t('page.auth.register'),
+          title: '注册',
         },
       },
     ],

@@ -12,7 +12,6 @@ import { Button } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import { createEmployee, updateEmployee } from '#/api/system/dept';
-import { $t } from '#/locales';
 
 import { useSchema } from './data';
 
@@ -20,9 +19,7 @@ const emit = defineEmits(['success']);
 const formData = ref<PlatformUser>();
 const router = useRouter();
 const getTitle = computed(() => {
-  return formData.value?.id
-    ? $t('ui.actionTitle.edit', [$t('system.employee.name')])
-    : $t('ui.actionTitle.create', [$t('system.employee.name')]);
+  return formData.value?.id ? '修改员工' : '新增员工';
 });
 
 const [Form, formApi] = useVbenForm({
@@ -86,9 +83,7 @@ const [Modal, modalApi] = useVbenModal({
     <Form class="mx-4" />
     <template #prepend-footer>
       <div class="flex-auto">
-        <Button type="primary" danger @click="resetForm">
-          {{ $t('common.reset') }}
-        </Button>
+        <Button type="primary" danger @click="resetForm"> 重置 </Button>
       </div>
     </template>
   </Modal>

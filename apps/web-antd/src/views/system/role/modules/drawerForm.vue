@@ -3,7 +3,7 @@ import type { MenuModel, Recordable } from '@vben/types';
 
 import type { SystemRoleApi } from '#/api/system/role1';
 
-import { computed, ref, toRaw } from 'vue';
+import { ref, toRaw } from 'vue';
 
 import { useVbenDrawer, VbenTree } from '@vben/common-ui';
 
@@ -113,12 +113,6 @@ async function loadPermissions() {
   }
 }
 
-const getDrawerTitle = computed(() => {
-  return formData.value?.id
-    ? $t('common.edit', $t('system.role.name'))
-    : $t('common.create', $t('system.role.name'));
-});
-
 function getNodeClass(node: Recordable<any>) {
   const classes: string[] = [];
   if (node.value?.type === 'button') {
@@ -132,7 +126,7 @@ function getNodeClass(node: Recordable<any>) {
 }
 </script>
 <template>
-  <Drawer :title="getDrawerTitle">
+  <Drawer title="配置">
     <Form>
       <template #permissions="slotProps">
         <Spin :spinning="loadingPermissions" wrapper-class-name="w-full">

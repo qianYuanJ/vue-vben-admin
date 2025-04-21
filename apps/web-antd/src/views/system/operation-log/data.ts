@@ -7,14 +7,12 @@ import { unref } from 'vue';
 
 import dayjs from 'dayjs';
 
-import { $t } from '#/locales';
-
 export function useFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('system.role.roleName'),
+      label: '角色名称',
       rules: 'required',
     },
     {
@@ -22,25 +20,25 @@ export function useFormSchema(): VbenFormSchema[] {
       componentProps: {
         buttonStyle: 'solid',
         options: [
-          { label: $t('common.enabled'), value: 1 },
-          { label: $t('common.disabled'), value: 0 },
+          { label: '已启用', value: 1 },
+          { label: '已禁用', value: 0 },
         ],
         optionType: 'button',
       },
       defaultValue: 1,
       fieldName: 'status',
-      label: $t('system.role.status'),
+      label: '状态',
     },
     {
       component: 'Textarea',
       fieldName: 'remark',
-      label: $t('system.role.remark'),
+      label: '备注',
     },
     {
       component: 'Input',
       fieldName: 'permissions',
       formItemClass: 'items-start',
-      label: $t('system.role.setPermissions'),
+      label: '权限',
       modelPropName: 'modelValue',
     },
   ];
@@ -51,7 +49,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
     {
       component: 'Input',
       fieldName: 'operate_phone',
-      label: $t('system.operationLog.phone'),
+      label: '操作账号',
     },
     {
       component: 'Select',
@@ -66,12 +64,12 @@ export function useGridFormSchema(): VbenFormSchema[] {
         ],
       },
       fieldName: 'operate_state',
-      label: $t('system.operationLog.state'),
+      label: '操作结果',
     },
     {
       component: 'RangePicker',
       fieldName: 'create_time',
-      label: $t('system.operationLog.time'),
+      label: '操作时间',
       componentProps: {
         showTime: true,
       },
@@ -83,22 +81,22 @@ export function useColumns(): VxeTableGridOptions['columns'] {
   return [
     {
       field: 'operate_type',
-      title: $t('system.operationLog.type'),
+      title: '操作类型',
       width: 200,
     },
     {
       field: 'operate_phone',
-      title: $t('system.operationLog.phone'),
+      title: '操作账号',
       width: 200,
     },
     {
       field: 'operate_state',
       minWidth: 100,
-      title: $t('system.operationLog.state'),
+      title: '操作结果',
     },
     {
       field: 'create_time',
-      title: $t('system.operationLog.time'),
+      title: '操作时间',
       width: 200,
       formatter: 'formatDateTime',
     },
@@ -106,7 +104,7 @@ export function useColumns(): VxeTableGridOptions['columns'] {
       align: 'center',
       field: 'operation',
       fixed: 'right',
-      title: $t('system.operationLog.operation'),
+      title: '操作',
       slots: { default: 'operation' },
     },
   ];

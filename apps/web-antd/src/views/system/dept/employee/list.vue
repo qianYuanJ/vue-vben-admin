@@ -13,7 +13,6 @@ import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteEmployee, getEmployeeList } from '#/api/system/dept';
-import { $t } from '#/locales';
 
 import { useColumns } from './data';
 import Form from './form.vue';
@@ -52,7 +51,7 @@ function onAppend(row: PlatformUser) {
  */
 function onDelete(row: PlatformUser) {
   const hideLoading = message.loading({
-    content: $t('ui.actionMessage.deleting', [row.nickname]),
+    content: `正在删除${row.nickname}`,
     duration: 0,
     key: 'action_process_msg',
   });
@@ -163,11 +162,11 @@ function refreshGrid() {
 <template>
   <Page auto-content-height>
     <FormModal @success="refreshGrid" />
-    <Grid :table-title="$t('system.employee.list')">
+    <Grid table-title="员工列表">
       <template #toolbar-tools>
         <Button type="primary" @click="onCreate">
           <Plus class="size-5" />
-          {{ $t('ui.actionTitle.create', [$t('system.employee.name')]) }}
+          新增
         </Button>
       </template>
       <template #sex="{ row }">

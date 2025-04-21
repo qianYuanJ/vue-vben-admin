@@ -15,7 +15,6 @@ import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteDept, getDeptList, getEmployeeList } from '#/api/system/dept';
-import { $t } from '#/locales';
 
 import { useColumns } from './data';
 import Form from './form.vue';
@@ -56,7 +55,7 @@ function onCreate() {
  */
 function onDelete(row: DepartmentModel) {
   const hideLoading = message.loading({
-    content: $t('ui.actionMessage.deleting', [row.name]),
+    content: `正在删除部门 ${row.name}`,
     duration: 0,
     key: 'action_process_msg',
   });
@@ -74,7 +73,7 @@ function onDelete(row: DepartmentModel) {
       if (hasEmployees) {
         // 有员工，不能删，提示一下
         message.warning({
-          content: $t('system.dept.deleteFieldMsg'),
+          content: '部门成员不为空，无法删除！',
         });
         // 返回一个 rejected promise 阻止后续执行
         throw new Error('部门成员不为空，无法删除！');
@@ -85,7 +84,7 @@ function onDelete(row: DepartmentModel) {
     })
     .then(() => {
       message.success({
-        content: $t('ui.actionMessage.deleteSuccess', [row.name]),
+        content: `删除部门 ${row.name} 成功`,
         key: 'action_process_msg',
       });
       refreshGrid();
@@ -169,7 +168,7 @@ function refreshGrid() {
       <template #toolbar-tools>
         <Button type="primary" @click="onCreate">
           <Plus class="size-5" />
-          {{ $t('ui.actionTitle.create', [$t('system.dept.name')]) }}
+          新增部门
         </Button>
       </template>
     </Grid>

@@ -11,7 +11,6 @@ import type { Recordable } from '@vben/types';
 import { defineComponent, getCurrentInstance, h, ref } from 'vue';
 
 import { ApiComponent, globalShareState, IconPicker } from '@vben/common-ui';
-import { $t } from '@vben/locales';
 
 import {
   AutoComplete,
@@ -48,10 +47,9 @@ const withDefaultPlaceholder = <T extends Component>(
     inheritAttrs: false,
     name: component.name,
     setup: (props: any, { attrs, expose, slots }) => {
+      const placeholderText = type === 'input' ? '请输入' : '请选择';
       const placeholder =
-        props?.placeholder ||
-        attrs?.placeholder ||
-        $t(`ui.placeholder.${type}`);
+        props?.placeholder || attrs?.placeholder || placeholderText;
       // 透传组件暴露的方法
       const innerRef = ref();
       const publicApi: Recordable<any> = {};

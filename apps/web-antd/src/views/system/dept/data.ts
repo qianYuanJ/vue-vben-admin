@@ -6,7 +6,6 @@ import type { SystemDeptApi } from '#/api/system/dept';
 
 import { z } from '#/adapter/form';
 import { getDeptList } from '#/api/system/dept';
-import { $t } from '#/locales';
 
 /**
  * 获取编辑表单的字段配置。如果没有使用多语言，可以直接export一个数组常量
@@ -16,14 +15,11 @@ export function useSchema(): VbenFormSchema[] {
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('system.dept.deptName'),
+      label: '部门名称',
       rules: z
         .string()
-        .min(2, $t('ui.formRules.minLength', [$t('system.dept.deptName'), 2]))
-        .max(
-          20,
-          $t('ui.formRules.maxLength', [$t('system.dept.deptName'), 20]),
-        ),
+        .min(2, '部门名称最短2个字符')
+        .max(20, '部门名称最长20个字符'),
     },
     {
       component: 'ApiTreeSelect',
@@ -39,7 +35,7 @@ export function useSchema(): VbenFormSchema[] {
         childrenField: 'children',
       },
       fieldName: 'parent_id',
-      label: $t('system.dept.parentDept'),
+      label: '上级部门',
     },
     {
       component: 'Textarea',
@@ -49,11 +45,8 @@ export function useSchema(): VbenFormSchema[] {
         showCount: true,
       },
       fieldName: 'remark',
-      label: $t('system.dept.remark'),
-      rules: z
-        .string()
-        .max(50, $t('ui.formRules.maxLength', [$t('system.dept.remark'), 50]))
-        .optional(),
+      label: '备注',
+      rules: z.string().max(50, '备注最多50个字符').optional(),
     },
   ];
 }
@@ -71,17 +64,17 @@ export function useColumns(
       align: 'left',
       field: 'name',
       fixed: 'left',
-      title: $t('system.dept.deptName'),
+      title: '部门名称',
       treeNode: true,
       width: 150,
     },
     {
       field: 'remark',
-      title: $t('system.dept.remark'),
+      title: '备注',
     },
     {
       field: 'created_time',
-      title: $t('system.dept.createTime'),
+      title: '创建时间',
       width: 180,
     },
     {
@@ -89,7 +82,7 @@ export function useColumns(
       cellRender: {
         attrs: {
           nameField: 'name',
-          nameTitle: $t('system.dept.name'),
+          nameTitle: '操作',
           onClick: onActionClick,
         },
         name: 'CellOperation',
@@ -101,7 +94,7 @@ export function useColumns(
           'edit', // 默认的编辑按钮
           {
             code: 'employees',
-            text: $t('system.employee.title'),
+            text: '员工管理',
           },
           {
             code: 'delete', // 默认的删除按钮
@@ -115,7 +108,7 @@ export function useColumns(
       fixed: 'right',
       headerAlign: 'center',
       showOverflow: false,
-      title: $t('system.dept.operation'),
+      title: '操作',
       width: 250,
     },
   ];

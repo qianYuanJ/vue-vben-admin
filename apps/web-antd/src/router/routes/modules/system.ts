@@ -1,13 +1,11 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { $t } from '#/locales';
-
 const routes: RouteRecordRaw[] = [
   {
     meta: {
       icon: 'lucide:settings',
       order: 9999,
-      title: $t('page.system.title'),
+      title: '系统设置',
     },
     name: 'SystemSettings',
     path: '/system',
@@ -18,7 +16,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/system/dept/list.vue'),
         meta: {
           icon: 'lucide:users',
-          title: $t('page.system.department'),
+          title: '部门管理',
         },
       },
       {
@@ -27,7 +25,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/system/dept/employee/list.vue'),
         meta: {
           hideInMenu: true,
-          title: $t('page.system.employee'),
+          title: '员工管理',
         },
       },
       {
@@ -36,7 +34,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/system/operation-log/list.vue'),
         meta: {
           icon: 'lucide:file-text',
-          title: $t('page.system.operationLog'),
+          title: '操作日志',
         },
       },
       {
@@ -45,7 +43,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/system/role/list.vue'),
         meta: {
           icon: 'lucide:shield',
-          title: $t('page.system.rolePermission'),
+          title: '角色权限管理',
         },
       },
       {
@@ -54,7 +52,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/system/app-version/index.vue'),
         meta: {
           icon: 'lucide:smartphone',
-          title: $t('page.system.appVersion'),
+          title: 'APP版本管理',
         },
       },
     ],

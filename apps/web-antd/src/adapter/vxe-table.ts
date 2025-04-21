@@ -3,14 +3,11 @@ import type { Recordable } from '@vben/types';
 import { h } from 'vue';
 
 import { IconifyIcon } from '@vben/icons';
-import { $te } from '@vben/locales';
 import { setupVbenVxeTable, useVbenVxeGrid } from '@vben/plugins/vxe-table';
 import { get, isFunction, isString } from '@vben/utils';
 
 import { objectOmit } from '@vueuse/core';
 import { Button, Image, Popconfirm, Switch, Tag } from 'ant-design-vue';
-
-import { $t } from '#/locales';
 
 import { useVbenForm } from './form';
 
@@ -85,8 +82,8 @@ setupVbenVxeTable({
       renderTableDefault({ options, props }, { column, row }) {
         const value = get(row, column.field);
         const tagOptions = options ?? [
-          { color: 'success', label: $t('common.enabled'), value: 1 },
-          { color: 'error', label: $t('common.disabled'), value: 0 },
+          { color: 'success', label: '已启用', value: 1 },
+          { color: 'error', label: '已禁用', value: 0 },
         ];
         const tagItem = tagOptions.find((item) => item.value === value);
         return h(
@@ -104,9 +101,9 @@ setupVbenVxeTable({
       renderTableDefault({ attrs, props }, { column, row }) {
         const loadingKey = `__loading_${column.field}`;
         const finallyProps = {
-          checkedChildren: $t('common.enabled'),
+          checkedChildren: '已启用',
           checkedValue: 1,
-          unCheckedChildren: $t('common.disabled'),
+          unCheckedChildren: '已禁用',
           unCheckedValue: 0,
           ...props,
           checked: row[column.field],
@@ -152,10 +149,10 @@ setupVbenVxeTable({
         const presets: Recordable<Recordable<any>> = {
           delete: {
             danger: true,
-            text: $t('common.delete'),
+            text: '删除',
           },
           edit: {
-            text: $t('common.edit'),
+            text: '修改',
           },
         };
         const operations: Array<Recordable<any>> = (
@@ -167,7 +164,7 @@ setupVbenVxeTable({
                 ? { code: opt, ...presets[opt], ...defaultProps }
                 : {
                     code: opt,
-                    text: $te(`common.${opt}`) ? $t(`common.${opt}`) : opt,
+                    text: opt,
                     ...defaultProps,
                   };
             } else {
@@ -221,7 +218,7 @@ setupVbenVxeTable({
                 return el.closest('tbody') || document.body;
               },
               placement: 'topLeft',
-              title: $t('ui.actionTitle.delete', [attrs?.nameTitle || '']),
+              title: `删除${attrs?.nameTitle || ''}`,
               ...props,
               ...opt,
               icon: undefined,
@@ -238,9 +235,7 @@ setupVbenVxeTable({
                 h(
                   'div',
                   { class: 'truncate' },
-                  $t('ui.actionMessage.deleteConfirm', [
-                    row[attrs?.nameField ?? 'name'] || row.nickname,
-                  ]),
+                  `确认${row[attrs?.nameField ?? 'name'] || row.nickname}吗？`,
                 ),
             },
           );

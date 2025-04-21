@@ -6,7 +6,6 @@ import type { OnActionClickFn } from '#/adapter/vxe-table';
 
 import { z } from '#/adapter/form';
 import { getRoleList } from '#/api/system/role';
-import { $t } from '#/locales';
 
 /**
  * 员工表单字段配置
@@ -16,33 +15,24 @@ export function useSchema(): VbenFormSchema[] {
     {
       component: 'Input',
       fieldName: 'nickname',
-      label: $t('system.employee.employeeName'),
+      label: '员工姓名',
       rules: z
         .string()
-        .min(
-          2,
-          $t('ui.formRules.minLength', [$t('system.employee.employeeName'), 2]),
-        )
-        .max(
-          10,
-          $t('ui.formRules.maxLength', [
-            $t('system.employee.employeeName'),
-            20,
-          ]),
-        ),
+        .min(2, '员工姓名最少2个字符')
+        .max(10, '员工姓名最多10个字符'),
     },
     {
       component: 'Input',
       fieldName: 'phone',
-      label: $t('system.employee.mobile'),
+      label: '手机号码',
       rules: z.string().regex(/^1[3-9]\d{9}$/, {
-        message: $t('ui.formRules.required', [$t('rule.phone.vailable')]),
+        message: '手机号码格式不正确',
       }),
     },
     {
       component: 'RadioGroup',
       fieldName: 'sex',
-      label: $t('system.employee.sex'),
+      label: '性别',
       componentProps: {
         options: [
           {
@@ -61,14 +51,8 @@ export function useSchema(): VbenFormSchema[] {
     {
       component: 'Input',
       fieldName: 'job',
-      label: $t('system.employee.post'),
-      rules: z
-        .string()
-        .min(2, $t('ui.formRules.minLength', [$t('system.employee.post'), 2]))
-        .max(
-          10,
-          $t('ui.formRules.maxLength', [$t('system.employee.post'), 20]),
-        ),
+      label: '岗位',
+      rules: z.string().min(2, '岗位最少2个字符').max(10, '岗位最多10个字符'),
     },
     {
       component: 'ApiSelect',
@@ -83,7 +67,7 @@ export function useSchema(): VbenFormSchema[] {
         labelField: 'name',
         valueField: 'id',
       },
-      label: $t('system.employee.role'),
+      label: '角色',
       rules: 'selectRequired',
     },
   ];
@@ -100,32 +84,32 @@ export function useColumns(
   return [
     {
       field: 'nickname',
-      title: $t('system.employee.employeeName'),
+      title: '员工姓名',
       width: 120,
     },
     {
       field: 'phone',
-      title: $t('system.employee.mobile'),
+      title: '手机号码',
       width: 120,
     },
     {
       field: 'sex',
-      title: $t('system.employee.sex'),
+      title: '性别',
       width: 120,
       slots: { default: 'sex' },
     },
     {
       field: 'job',
-      title: $t('system.employee.post'),
+      title: '岗位',
     },
     {
       field: 'roles',
-      title: $t('system.employee.role'),
+      title: '角色',
       slots: { default: 'roles' },
     },
     {
       field: 'create_time',
-      title: $t('system.employee.createTime'),
+      title: '创建时间',
       width: 180,
     },
     {
@@ -134,13 +118,13 @@ export function useColumns(
       cellRender: {
         attrs: {
           nameField: 'name',
-          nameTitle: $t('system.employee.name'),
+          nameTitle: '员工姓名',
           onClick: onActionClick,
         },
         name: 'CellOperation',
         options: ['edit', 'delete'],
       },
-      title: $t('system.employee.operation'),
+      title: '操作',
       width: 160,
     },
   ];

@@ -1,7 +1,6 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
-import { $t } from '#/locales';
 /**
  * 弹窗表单
  */
@@ -10,7 +9,7 @@ export function useSchema(): VbenFormSchema[] {
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('system.role.roleName'),
+      label: '角色名称',
       rules: 'required',
     },
   ];
@@ -24,7 +23,7 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'Input',
       fieldName: 'permissions',
       formItemClass: 'items-start',
-      label: $t('system.role.permissions'),
+      label: '权限',
       modelPropName: 'modelValue',
     },
   ];
@@ -36,18 +35,18 @@ export function useColumns(): VxeTableGridOptions['columns'] {
   return [
     {
       field: 'name',
-      title: $t('system.role.roleName'),
+      title: '角色名称',
     },
     {
       field: 'created_time',
-      title: $t('system.role.createTime'),
+      title: '创建时间',
       formatter: 'formatDateTime',
     },
     {
       align: 'center',
       field: 'operation',
       fixed: 'right',
-      title: $t('system.role.operation'),
+      title: '操作',
       width: 200,
       slots: { default: 'operation' },
     },

@@ -17,6 +17,10 @@
     "employee": "员工管理",
     "operationLog": "操作日志",
     "rolePermission": "角色权限管理",
-    "appVersion": "APP版本管理"
+    "appVersion": "APP版本管理",
+    "account": "账号管理",
+    "password": "修改密码",
+    "dept": "部门管理",
+    "menu": "菜单管理"
   }
 }

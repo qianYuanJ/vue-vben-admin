@@ -4,7 +4,6 @@ import type { ExtendedFormApi, VbenFormSchema } from '@vben/common-ui';
 import { computed, onMounted, ref } from 'vue';
 
 import { AuthenticationCodeLogin, z } from '@vben/common-ui';
-import { $t } from '@vben/locales';
 
 import { getVerifyCodeApi } from '#/api';
 import { useLoginStore } from '#/store';
@@ -32,15 +31,15 @@ const formSchema = computed((): VbenFormSchema[] => {
     {
       component: 'VbenInput',
       componentProps: {
-        placeholder: $t('authentication.mobile'),
+        placeholder: '手机号码',
       },
       fieldName: 'phone',
-      label: $t('authentication.mobile'),
+      label: '手机号码',
       rules: z
         .string()
-        .min(1, { message: $t('authentication.mobileTip') })
+        .min(1, { message: '请输入手机号' })
         .refine((v) => /^1[3-9]\d{9}$/.test(v), {
-          message: $t('authentication.mobileErrortip'),
+          message: '手机号码格式错误',
         }),
     },
     {
@@ -49,9 +48,7 @@ const formSchema = computed((): VbenFormSchema[] => {
         codeLength: CODE_LENGTH,
         createText: (countdown: number) => {
           const text =
-            countdown > 0
-              ? $t('authentication.sendText', [countdown])
-              : $t('authentication.sendCode');
+            countdown > 0 ? `${countdown}秒后重新获取` : '获取验证码';
           return text;
         },
         /** 处理发送验证码 */
@@ -66,12 +63,12 @@ const formSchema = computed((): VbenFormSchema[] => {
             throw result;
           }
         },
-        placeholder: $t('authentication.code'),
+        placeholder: '验证码',
       },
       fieldName: 'code',
-      label: $t('authentication.code'),
+      label: '验证码',
       rules: z.string().length(CODE_LENGTH, {
-        message: $t('authentication.codeTip', [CODE_LENGTH]),
+        message: `请输入${CODE_LENGTH}位验证码`,
       }),
     },
   ];

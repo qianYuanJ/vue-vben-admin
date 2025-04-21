@@ -13,7 +13,6 @@ import { Button, message, Popconfirm } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteRole, getRoleInfoById, getRoleList } from '#/api/system/role';
 import { getUserListByRoleId } from '#/api/user';
-import { $t } from '#/locales';
 
 import { useColumns } from './data';
 import DrawerForm from './modules/drawerForm.vue';
@@ -107,7 +106,7 @@ const onModalFormSuccess = () => {
 
 const confirm = (row: RoleModel) => {
   const hideLoading = message.loading({
-    content: $t('ui.actionMessage.deleting', [row.name]),
+    content: '正在处理中...',
     duration: 0,
     key: 'action_process_msg',
   });
@@ -120,10 +119,10 @@ const confirm = (row: RoleModel) => {
       if (hasUser) {
         // 有员工，不能删，提示一下
         message.warning({
-          content: $t('system.role.deleteFieldMsg'),
+          content: '该角色有关联人员不可删除！',
         });
         // 返回一个 rejected promise 阻止后续执行
-        throw new Error('部门成员不为空，无法删除！');
+        throw new Error('该角色有关联人员不可删除！');
       } else {
         // 没有员工才删除部门
         return deleteRole({ id: row.id! });
@@ -131,7 +130,7 @@ const confirm = (row: RoleModel) => {
     })
     .then(() => {
       message.success({
-        content: $t('ui.actionMessage.deleteSuccess', [row.name]),
+        content: '删除成功！',
         key: 'action_process_msg',
       });
       gridApi.query();
@@ -150,23 +149,21 @@ const getPopupContainer = (el: HTMLElement) => {
   <Page auto-content-height>
     <FormDrawer />
     <FormModal @success="onModalFormSuccess" />
-    <Grid :table-title="$t('system.role.list')">
+    <Grid table-title="角色列表">
       <template #toolbar-tools>
         <Button type="primary" @click="onCreate">
           <Plus class="size-5" />
-          {{ $t('ui.actionTitle.create', [$t('system.role.name')]) }}
+          新增角色
         </Button>
       </template>
       <template #operation="{ row }">
-        <Button size="small" type="link" @click="onEdit(row)">
-          {{ $t('common.edit') }}
-        </Button>
+        <Button size="small" type="link" @click="onEdit(row)"> 修改 </Button>
         <Button size="small" type="link" @click="onPermissionEdit(row)">
-          {{ $t('system.role.rolePermissions') }}
+          权限配置
         </Button>
         <Popconfirm
           size="small"
-          :title="$t('ui.actionTitle.delete', [$t('system.role.name')])"
+          title="删除角色"
           @confirm="confirm(row)"
           @cancel="cancel"
           :disabled="row.system_role === 1"
@@ -174,9 +171,7 @@ const getPopupContainer = (el: HTMLElement) => {
           :get-popup-container="getPopupContainer"
         >
           <template #description>
-            <div class="truncate">
-              {{ $t('ui.actionMessage.deleteConfirm', [row.name]) }}
-            </div>
+            <div class="truncate">确认删除 {{ row.name }} ？</div>
           </template>
           <Button
             danger
@@ -184,7 +179,7 @@ const getPopupContainer = (el: HTMLElement) => {
             type="link"
             :disabled="row.system_role === 1"
           >
-            {{ $t('common.delete') }}
+            删除
           </Button>
         </Popconfirm>
       </template>

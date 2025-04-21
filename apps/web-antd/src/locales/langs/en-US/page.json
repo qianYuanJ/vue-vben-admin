@@ -17,6 +17,10 @@
     "employee": "Employee Management",
     "operationLog": "Operation Log",
     "rolePermission": "Role Permission",
-    "appVersion": "APP Version Management"
+    "appVersion": "APP Version Management",
+    "account": "Account Management",
+    "password": "Change Password",
+    "dept": "Department Management",
+    "menu": "Menu Management"
   }
 }

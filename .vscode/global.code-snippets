@@ -11,8 +11,8 @@
     "body": ["export * from '$1';"],
     "description": "Export a module",
   },
-  "vue-script-setup": {
-    "scope": "vue",
+  "vue3-script-setup": {
+    "scope": "vue3",
     "prefix": "<sc",
     "body": [
       "<script setup lang=\"ts\">",

@@ -7,13 +7,26 @@
     "operation": "操作",
     "parentDept": "上级部门",
     "remark": "备注",
-    "status": "状态",
+    "status": "部门状态",
     "title": "部门管理",
-    "deleteFieldMsg": "部门成员不为空，无法删除！"
+    "deleteFieldMsg": "部门成员不为空，无法删除！",
+    "sort": "排序",
+    "describe": "描述",
+    "enable": "启用",
+    "disable": "禁用",
+    "addTitle": "添加部门",
+    "editTitle": "编辑部门",
+    "tree": "部门架构",
+    "placeholder": {
+      "name": "请输入部门名称",
+      "sort": "请输入排序值",
+      "describe": "请输入描述"
+    },
+    "employee": "员工管理"
   },
   "employee": {
     "list": "员工列表",
-    "name": "员工",
+    "name": "员工姓名",
     "sex": "性别",
     "title": "员工管理",
     "employeeName": "员工姓名",
@@ -25,7 +38,32 @@
     "operation": "操作",
     "status": "状态",
     "email": "邮箱",
-    "position": "职位"
+    "position": "职位",
+    "job": "职位",
+    "addTitle": "添加员工",
+    "editTitle": "编辑员工",
+    "placeholder": {
+      "name": "请输入员工姓名",
+      "phone": "请输入手机号码",
+      "job": "请输入职位",
+      "role": "请选择角色"
+    },
+    "male": "男",
+    "female": "女",
+    "create": "新增员工",
+    "edit": "编辑员工",
+    "delete": "删除员工",
+    "deleteConfirm": "确定删除该员工吗？",
+    "form": {
+      "name": "姓名",
+      "namePlaceholder": "请输入姓名",
+      "mobile": "手机号",
+      "mobilePlaceholder": "请输入手机号",
+      "role": "角色",
+      "rolePlaceholder": "请选择角色",
+      "department": "所属部门",
+      "departmentPlaceholder": "请选择所属部门"
+    }
   },
   "menu": {
     "list": "菜单列表",
