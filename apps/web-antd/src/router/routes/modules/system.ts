@@ -7,52 +7,59 @@ const routes: RouteRecordRaw[] = [
       order: 9999,
       title: '系统设置',
     },
-    name: 'SystemSettings',
-    path: '/system',
+    name: 'system_setting',
+    path: '/system_setting',
     children: [
       {
-        name: 'DeptManagement',
-        path: '/system/dept',
-        component: () => import('#/views/system/dept/list.vue'),
+        name: 'system_setting:dept_management',
+        path: '/system_setting/staff_management',
+        component: () =>
+          import('#/views/system_setting/staff_management/list.vue'),
         meta: {
           icon: 'lucide:users',
           title: '部门管理',
+          order: 1,
         },
       },
       {
-        name: 'EmployeeManagement',
-        path: '/system/dept/employee',
-        component: () => import('#/views/system/dept/employee/list.vue'),
+        name: 'system_setting:staff_management:employee',
+        path: '/system_setting/staff_management/employee',
+        component: () =>
+          import('#/views/system_setting/staff_management/employee/list.vue'),
         meta: {
           hideInMenu: true,
           title: '员工管理',
         },
       },
       {
-        name: 'OperationLog',
-        path: '/system/operation-log',
-        component: () => import('#/views/system/operation-log/list.vue'),
+        name: 'system_setting:operation_log',
+        path: '/system_setting/operation_log',
+        component: () =>
+          import('#/views/system_setting/operation_log/list.vue'),
         meta: {
           icon: 'lucide:file-text',
           title: '操作日志',
+          order: 2,
         },
       },
       {
-        name: 'RolePermission',
-        path: '/system/role',
-        component: () => import('#/views/system/role/list.vue'),
+        name: 'system_setting:rbac',
+        path: '/system_setting/rbac',
+        component: () => import('#/views/system_setting/rbac/list.vue'),
         meta: {
           icon: 'lucide:shield',
           title: '角色权限管理',
+          order: 3,
         },
       },
       {
-        name: 'AppVersionManagement',
-        path: '/system/app-version',
-        component: () => import('#/views/system/app-version/index.vue'),
+        name: 'system_setting:version',
+        path: '/system_setting/version',
+        component: () => import('#/views/system_setting/version/index.vue'),
         meta: {
           icon: 'lucide:smartphone',
           title: 'APP版本管理',
+          order: 4,
         },
       },
     ],

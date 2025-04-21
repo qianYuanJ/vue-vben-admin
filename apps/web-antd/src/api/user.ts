@@ -24,4 +24,13 @@ async function getUserListByRoleId({
   );
 }
 
-export { getUserListByRoleId };
+/**
+ * 获取用户菜单树
+ */
+async function getUserMenuList(userId: string) {
+  return requestClient.get<Response<RoleModel>>(
+    `/platform_menu/user_tree?userId=${userId}`,
+  );
+}
+
+export { getUserListByRoleId, getUserMenuList };
