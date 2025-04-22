@@ -57,8 +57,8 @@ export function stringifyComponents(routes: any[]): any[] {
 
         if (typeof route.component === 'function') {
           const str = route.component.toString();
-          const fullPath = str.split('?')[0];
-          newRoute.component = fullPath.split('/views')[1];
+          const match = str.match(/\/views([^"]+?\.vue)(\?[^"]*)?(?=["'])/);
+          newRoute.component = match ? match[1] : '';
         }
 
         if (route.children && Array.isArray(route.children)) {

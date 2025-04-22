@@ -14,6 +14,7 @@ import { BasicLayout, IFrameView } from '#/layouts';
 
 import { filterLocalRoutesByBackend, stringifyComponents } from './routeFilter';
 import { accessRoutes } from './routes';
+import routes from './routes/modules/dashboard';
 
 const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
 
@@ -41,7 +42,10 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
       );
 
       return new Promise((resolve) =>
-        resolve(stringifyComponents(filteredRoutes)),
+        resolve([
+          ...stringifyComponents(filteredRoutes), // 增加后端返回的路由配置
+          ...stringifyComponents(routes), // 增加原有的分析页和工作台
+        ]),
       );
     },
     // 可以指定没有权限跳转403页面
