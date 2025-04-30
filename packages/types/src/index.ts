@@ -1,3 +1,5 @@
+export type * from './coal_origin';
+export type * from './dictionary';
 export type * from './platform-user';
 export type * from './request';
 export type * from './response';

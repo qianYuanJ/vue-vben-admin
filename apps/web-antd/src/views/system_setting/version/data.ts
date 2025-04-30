@@ -172,9 +172,8 @@ export const requestParamsHandler = ({
 
 /**
  * 编辑/创建版本表单配置
- * @param appList 应用列表
  */
-export function useFormSchema(_appList: any[]): VbenFormSchema[] {
+export function useFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',

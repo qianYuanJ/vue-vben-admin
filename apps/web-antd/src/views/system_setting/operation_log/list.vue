@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import type { OperateLog, RequestListParams } from '@vben/types';
+import type { OperateLog, RequestListParams, RoleModel } from '@vben/types';
 
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
-import type { SystemRoleApi } from '#/api/system/role1';
 
 import { ref, toRaw } from 'vue';
 
@@ -58,7 +57,7 @@ const [Grid] = useVbenVxeGrid({
       search: true,
       zoom: true,
     },
-  } as VxeTableGridOptions<SystemRoleApi.SystemRole>,
+  } as VxeTableGridOptions<RoleModel>,
 });
 
 const onCheckClick = (row: OperateLog) => {

@@ -115,7 +115,7 @@ function onActionClick({ code, row }: OnActionClickParams<DepartmentModel>) {
     case 'employees': {
       // 跳转到员工管理页面，携带部门ID参数
       router.push({
-        path: `/system/dept/employee`,
+        path: `/system_setting/staff_management/employee`,
         query: { deptId: row.id, deptName: row.name },
       });
       break;

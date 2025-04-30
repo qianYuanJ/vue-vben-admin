@@ -15,6 +15,7 @@ import { ApiComponent, globalShareState, IconPicker } from '@vben/common-ui';
 import {
   AutoComplete,
   Button,
+  Cascader,
   Checkbox,
   CheckboxGroup,
   DatePicker,
@@ -37,6 +38,9 @@ import {
   TreeSelect,
   Upload,
 } from 'ant-design-vue';
+
+import { Map } from './Map';
+import { FileUpload, MyUpload } from './MyUpload';
 
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
@@ -77,16 +81,20 @@ export type ComponentType =
   | 'ApiSelect'
   | 'ApiTreeSelect'
   | 'AutoComplete'
+  | 'Cascader'
   | 'Checkbox'
   | 'CheckboxGroup'
   | 'DatePicker'
   | 'DefaultButton'
   | 'Divider'
+  | 'FileUpload'
   | 'IconPicker'
   | 'Input'
   | 'InputNumber'
   | 'InputPassword'
+  | 'Map'
   | 'Mentions'
+  | 'MyUpload'
   | 'Popconfirm'
   | 'PrimaryButton'
   | 'Radio'
@@ -120,6 +128,12 @@ async function initComponentAdapter() {
       modelPropName: 'value',
       optionsPropName: 'treeData',
       visibleEvent: 'onVisibleChange',
+    }),
+    ApiCascader: withDefaultPlaceholder(ApiComponent, 'select', {
+      component: Cascader,
+      loadingSlot: 'suffixIcon',
+      visibleEvent: 'onDropdownVisibleChange',
+      modelPropName: 'value',
     }),
     AutoComplete,
     Checkbox,
@@ -155,6 +169,10 @@ async function initComponentAdapter() {
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
     Popconfirm,
+    Cascader: withDefaultPlaceholder(Cascader, 'select'),
+    Map,
+    MyUpload,
+    FileUpload,
   };
 
   // 将组件注册到全局共享状态中

@@ -152,7 +152,7 @@ setupVbenVxeTable({
             text: '删除',
           },
           edit: {
-            text: '修改',
+            text: '编辑',
           },
         };
         const operations: Array<Recordable<any>> = (

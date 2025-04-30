@@ -1,5 +1,7 @@
 import type { Preferences } from './types';
 
+import RtLogo from '../public/rtkj-logo.jpg';
+
 const defaultPreferences: Preferences = {
   app: {
     accessMode: 'frontend',
@@ -51,7 +53,7 @@ const defaultPreferences: Preferences = {
   },
   logo: {
     enable: true,
-    source: 'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    source: RtLogo,
   },
   navigation: {
     accordion: true,

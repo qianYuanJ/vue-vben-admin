@@ -26,6 +26,7 @@
     "#/*": "./src/*"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "@vben-core/menu-ui": "workspace:*",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",
@@ -42,10 +43,17 @@
     "@vben/types": "workspace:*",
     "@vben/utils": "workspace:*",
     "@vueuse/core": "catalog:",
+    "ali-oss": "^6.22.0",
     "ant-design-vue": "catalog:",
     "dayjs": "catalog:",
+    "js-md5": "^0.8.3",
+    "mitt": "^3.0.1",
     "pinia": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "@types/ali-oss": "^6.16.11",
+    "@types/js-md5": "^0.7.2"
   }
 }

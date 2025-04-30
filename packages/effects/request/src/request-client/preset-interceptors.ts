@@ -28,9 +28,13 @@ export const defaultResponseInterceptor = ({
         return response;
       }
 
-      if ((status >= 200 && status < 400) || responseData.ok) {
+      if ((responseData.ok && status === 200) || responseData?.page) {
         if (config.responseReturn === 'data') {
-          if (successMsg && responseData.msg) {
+          if (
+            successMsg &&
+            responseData.msg &&
+            responseData.msg !== '获取成功'
+          ) {
             successMsg(responseData.msg);
           }
           return responseData;

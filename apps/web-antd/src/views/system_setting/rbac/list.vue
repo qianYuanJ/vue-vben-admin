@@ -3,7 +3,6 @@ import type { RoleModel } from '@vben/stores';
 import type { MenuModel } from '@vben/types';
 
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
-import type { SystemRoleApi } from '#/api/system/role1';
 
 import { Page, useVbenDrawer, useVbenModal } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
@@ -53,7 +52,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
       search: true,
       zoom: true,
     },
-  } as VxeTableGridOptions<SystemRoleApi.SystemRole>,
+  } as VxeTableGridOptions<RoleModel>,
 });
 
 const handleMenuListToPermissions = (
@@ -93,7 +92,7 @@ function onPermissionEdit(row: MenuModel) {
   });
 }
 
-function onEdit(row: SystemRoleApi.SystemRole) {
+function onEdit(row: RoleModel) {
   formModalApi.setData(row).open();
 }
 
@@ -157,7 +156,7 @@ const getPopupContainer = (el: HTMLElement) => {
         </Button>
       </template>
       <template #operation="{ row }">
-        <Button size="small" type="link" @click="onEdit(row)"> 修改 </Button>
+        <Button size="small" type="link" @click="onEdit(row)"> 编辑 </Button>
         <Button size="small" type="link" @click="onPermissionEdit(row)">
           权限配置
         </Button>
