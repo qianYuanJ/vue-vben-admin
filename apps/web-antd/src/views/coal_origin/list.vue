@@ -6,6 +6,7 @@ import type { CascaderOption } from './data';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
 import { nextTick } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 
@@ -24,6 +25,8 @@ import {
   useGridFormSchema,
 } from './data';
 import ModalForm from './modules/modalForm.vue';
+
+const router = useRouter();
 
 const [FormModal, formModalApi] = useVbenModal({
   connectedComponent: ModalForm,
@@ -95,6 +98,15 @@ const onEdit = async (row: PlatformCoalLocality) => {
     emitter.emit('get:coalOrigin', row);
   });
 };
+
+const toCoalOverview = (row: PlatformCoalLocality) => {
+  router.push({
+    path: '/coal_origin/coal_overview',
+    query: {
+      id: row.mine_factory_id,
+    },
+  });
+};
 </script>
 <template>
   <Page auto-content-height>
@@ -102,7 +114,7 @@ const onEdit = async (row: PlatformCoalLocality) => {
     <Grid table-title="原煤产地">
       <template #operation="{ row }">
         <Button type="link" @click="onEdit(row)">编辑</Button>
-        <Button type="link" @click="onEdit(row)">煤质综述</Button>
+        <Button type="link" @click="toCoalOverview(row)">煤质综述</Button>
       </template>
     </Grid>
   </Page>

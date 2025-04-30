@@ -757,3 +757,66 @@ export interface PlatformCoalLocality {
   year_capacity?: number;
   [property: string]: any;
 }
+
+// 煤质综述类型：
+/**
+ * 煤质综述请求参数类型
+ */
+export interface PlatformSummarizeParams {
+  /**
+   * 创建时间
+   */
+  create_time?: Date;
+  /**
+   * 唯一标识
+   */
+  id?: string;
+  /**
+   * 煤矿煤厂汇总表ID
+   */
+  mine_factory_id: string;
+  /**
+   * 操作人
+   */
+  operator?: string;
+  /**
+   * 操作人id
+   */
+  operator_id?: string;
+  /**
+   * 煤质综述内容
+   */
+  summarize_content?: string;
+  /**
+   * 标签类型（原煤/粉煤/块煤/混块/原煤/洗面）
+   */
+  type: string;
+  [property: string]: any;
+}
+
+/**
+ * 煤质综述 响应数据类型
+ */
+export interface PlatformSummarize {
+  /**
+   * 创建时间
+   */
+  create_time?: Date;
+  /**
+   * 唯一标识
+   */
+  id?: string;
+  /**
+   * 煤矿煤厂汇总表ID
+   */
+  mine_factory_id: string;
+  /**
+   * 煤质综述内容
+   */
+  summarize_content: string;
+  /**
+   * 标签类型（原煤/粉煤/块煤/混块/原煤/洗面）
+   */
+  type: string;
+  [property: string]: any;
+}

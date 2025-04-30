@@ -80,6 +80,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
       dataField: 'data',
       successCode: 0,
       successMsg: message.success,
+      errorMsg: message.error,
     }),
   );
 

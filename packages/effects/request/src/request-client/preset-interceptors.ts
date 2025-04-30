@@ -11,11 +11,13 @@ export const defaultResponseInterceptor = ({
   dataField = 'data',
   successCode = 0,
   successMsg,
+  errorMsg,
 }: {
   /** 响应数据中代表访问结果的字段名 */
   codeField: string;
   /** 响应数据中装载实际数据的字段名，或者提供一个函数从响应数据中解析需要返回的数据 */
   dataField: ((response: any) => any) | string;
+  errorMsg?: (msg: string) => void;
   /** 当codeField所指定的字段值与successCode相同时，代表接口访问成功。如果提供一个函数，则返回true代表接口访问成功 */
   successCode: ((code: any) => boolean) | number | string;
   successMsg?: (msg: string) => void;
@@ -47,6 +49,12 @@ export const defaultResponseInterceptor = ({
             ? dataField(responseData)
             : responseData[dataField];
         }
+      }
+
+      if (!responseData.ok && errorMsg && responseData.msg) {
+        const msg = responseData.msg;
+        errorMsg(msg);
+        return responseData;
       }
 
       throw Object.assign({}, response, { response });

@@ -27,6 +27,7 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import('#/views/system_setting/staff_management/employee/list.vue'),
         meta: {
+          hideInBreadcrumb: true,
           hideInMenu: true,
           title: '员工管理',
         },

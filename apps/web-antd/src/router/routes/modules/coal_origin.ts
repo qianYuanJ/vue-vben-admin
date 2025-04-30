@@ -10,6 +10,16 @@ const routes: RouteRecordRaw[] = [
       title: '原煤产地',
     },
   },
+  {
+    name: 'coal_origin:coal_overview',
+    path: '/coal_origin/coal_overview',
+    component: () => import('#/views/coal_origin/coal_overview/list.vue'),
+    meta: {
+      hideInMenu: true,
+      hideInBreadcrumb: true,
+      title: '煤质综述',
+    },
+  },
 ];
 
 export default routes;
