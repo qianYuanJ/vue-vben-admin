@@ -20,6 +20,7 @@ import {
   CheckboxGroup,
   DatePicker,
   Divider,
+  Image,
   Input,
   InputNumber,
   InputPassword,
@@ -36,6 +37,7 @@ import {
   Textarea,
   TimePicker,
   TreeSelect,
+  TypographyTitle,
   Upload,
 } from 'ant-design-vue';
 
@@ -89,6 +91,7 @@ export type ComponentType =
   | 'Divider'
   | 'FileUpload'
   | 'IconPicker'
+  | 'Image'
   | 'Input'
   | 'InputNumber'
   | 'InputPassword'
@@ -107,6 +110,7 @@ export type ComponentType =
   | 'Textarea'
   | 'TimePicker'
   | 'TreeSelect'
+  | 'TypographyTitle'
   | 'Upload'
   | BaseFormComponentType;
 
@@ -144,6 +148,9 @@ async function initComponentAdapter() {
       return h(Button, { ...props, attrs, type: 'default' }, slots);
     },
     Divider,
+    CustomDivider: (props, { attrs }) => {
+      return h(Divider, { ...props, attrs }, props.children);
+    },
     IconPicker: withDefaultPlaceholder(IconPicker, 'select', {
       iconSlot: 'addonAfter',
       inputComponent: Input,
@@ -173,6 +180,15 @@ async function initComponentAdapter() {
     Map,
     MyUpload,
     FileUpload,
+    TypographyTitle,
+    Image,
+    CustomImage: (props, { attrs }) => {
+      return h(Image, {
+        ...props,
+        src: `${import.meta.env.VITE_OSS_URL}${props.value}`,
+        ...attrs,
+      });
+    },
   };
 
   // 将组件注册到全局共享状态中

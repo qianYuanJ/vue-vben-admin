@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import type { MenuModel, Recordable } from '@vben/types';
 
-import type { SystemRoleApi } from '#/api/system/role1';
-
 import { ref, toRaw } from 'vue';
 
 import { useVbenDrawer, VbenTree } from '@vben/common-ui';
@@ -17,7 +15,7 @@ import { useFormSchema } from '../data';
 
 const emits = defineEmits(['success']);
 
-const formData = ref<SystemRoleApi.SystemRole>();
+const formData = ref<MenuModel>();
 
 const [Form, formApi] = useVbenForm({
   schema: useFormSchema(),
@@ -32,7 +30,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
   async onConfirm() {
     const { valid } = await formApi.validate();
     if (!valid) return;
-    const data = drawerApi.getData<SystemRoleApi.SystemRole>();
+    const data = drawerApi.getData<MenuModel>();
 
     const values = await formApi.getValues();
     const params = {
@@ -50,18 +48,10 @@ const [Drawer, drawerApi] = useVbenDrawer({
       .catch(() => {
         drawerApi.unlock();
       });
-    // (id.value ? updateRole(id.value, values) : createRole(values))
-    //   .then(() => {
-    //     emits('success');
-    //     drawerApi.close();
-    //   })
-    //   .catch(() => {
-    //     drawerApi.unlock();
-    //   });
   },
   onOpenChange(isOpen) {
     if (isOpen) {
-      const data = drawerApi.getData<SystemRoleApi.SystemRole>();
+      const data = drawerApi.getData<MenuModel>();
       formApi.resetForm();
       if (data) {
         formData.value = data;

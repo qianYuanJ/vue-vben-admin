@@ -35,7 +35,8 @@ export const defaultResponseInterceptor = ({
           if (
             successMsg &&
             responseData.msg &&
-            responseData.msg !== '获取成功'
+            responseData.msg !== '获取成功' &&
+            responseData.msg !== '列表查询煤质综述数据成功'
           ) {
             successMsg(responseData.msg);
           }

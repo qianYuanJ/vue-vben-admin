@@ -7,6 +7,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('#/views/coal_origin/list.vue'),
     meta: {
       icon: 'lucide:map-pin-house',
+      order: 1,
       title: '原煤产地',
     },
   },
