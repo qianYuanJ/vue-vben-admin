@@ -55,7 +55,9 @@ setupVbenVxeTable({
     vxeUI.renderer.add('CellImage', {
       renderTableDefault(_renderOpts, params) {
         const { column, row } = params;
-        return h(Image, { src: row[column.field] });
+        return h(Image, {
+          src: import.meta.env.VITE_OSS_URL + row[column.field],
+        });
       },
     });
     // 表格配置项可以用 cellRender: { name: 'CellText' },

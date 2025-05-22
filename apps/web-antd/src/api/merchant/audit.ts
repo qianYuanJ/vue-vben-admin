@@ -54,4 +54,23 @@ async function auditPassApi(data: BuyerBusinessSettledPayConfirmRequestParams) {
   );
 }
 
-export { auditPassApi, cancelOrderApi, getAuditList, payConfirmApi };
+/**
+ * 拒绝通过 商家入驻审核
+ * @param data 请求参数
+ */
+async function auditRejectApi(
+  data: BuyerBusinessSettledPayConfirmRequestParams,
+) {
+  return requestClient.post<Response<null>>(
+    '/buyer_business_settled/buyer_business_settled_audit',
+    data,
+  );
+}
+
+export {
+  auditPassApi,
+  auditRejectApi,
+  cancelOrderApi,
+  getAuditList,
+  payConfirmApi,
+};
