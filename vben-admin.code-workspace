@@ -85,6 +85,10 @@
       "path": "packages/@core/ui-kit/tabs-ui",
     },
     {
+      "name": "@vben/colors",
+      "path": "packages/colors",
+    },
+    {
       "name": "@vben/constants",
       "path": "packages/constants",
     },

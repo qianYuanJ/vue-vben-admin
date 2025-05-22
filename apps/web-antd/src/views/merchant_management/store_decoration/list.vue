@@ -3,7 +3,10 @@ import type { RequestListParams, SellerCompanyManage } from '@vben/types';
 
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
+import { colors } from '@vben/colors';
 import { Page } from '@vben/common-ui';
+
+import { Button } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { getStoreDecorationList } from '#/api/merchant/store_decoration';
@@ -66,8 +69,20 @@ const [Grid] = useVbenVxeGrid({
 <template>
   <Page auto-content-height>
     <Grid table-title="商家入驻审核">
-      <template #operation="">
-        <Button type="link" :style="{ color: '#909399' }"> 详情 </Button>
+      <template #operation="{ row }">
+        <Button
+          type="link"
+          v-if="row.examine_status === '已通过'"
+          :style="{ color: colors.success }"
+        >
+          详情
+        </Button>
+        <Button type="link" v-else :style="{ color: colors.primary }">
+          审核
+        </Button>
+        <Button type="link" :style="{ color: colors.warning }">
+          设置标签
+        </Button>
       </template>
     </Grid>
   </Page>

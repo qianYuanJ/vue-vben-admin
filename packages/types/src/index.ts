@@ -1,4 +1,5 @@
 export type * from './coal_origin';
+export type * from './colors';
 export type * from './dictionary';
 export type * from './merchant/audit';
 export type * from './platform-user';

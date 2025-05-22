@@ -601,6 +601,9 @@ importers:
       '@vben/access':
         specifier: workspace:*
         version: link:../../packages/effects/access
+      '@vben/colors':
+        specifier: workspace:*
+        version: link:../../packages/colors
       '@vben/common-ui':
         specifier: workspace:*
         version: link:../../packages/effects/common-ui
@@ -1273,6 +1276,12 @@ importers:
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.8.2)
+
+  packages/colors:
+    dependencies:
+      '@vben/types':
+        specifier: workspace:*
+        version: link:../types
 
   packages/constants:
     dependencies:

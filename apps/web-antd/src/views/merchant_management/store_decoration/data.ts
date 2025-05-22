@@ -433,7 +433,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
-      fieldName: 'name',
+      fieldName: 'seller_name',
       label: '商家名称',
     },
     {
@@ -489,19 +489,27 @@ export function useColumns(): VxeTableGridOptions['columns'] {
       cellRender: { name: 'CellImage' },
     },
     {
-      align: 'left',
+      field: 'examine_status',
+      title: '审核状态',
+    },
+    {
+      field: 'create_time',
+      title: '素材提交时间',
+    },
+    {
       field: 'operation',
+      align: 'left',
       fixed: 'right',
       title: '操作',
       slots: { default: 'operation' },
-      width: 230,
+      width: 150,
     },
   ];
 }
 
 // 查询参数的匹配模式
 export const OperationMap: Record<string, Operation> = {
-  name: '%',
+  seller_name: '%',
   examine_status: '=',
 };
 // 处理请求参数

@@ -3,6 +3,7 @@ import type { ImBuyerBusinessSettled, RequestListParams } from '@vben/types';
 
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
+import { colors } from '@vben/colors';
 import { Page, useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
@@ -116,7 +117,7 @@ const onPayConfirm = (row: ImBuyerBusinessSettled) => {
           v-if="row.examine_status === '已通过' || row.pay_status === '已取消'"
           type="link"
           @click="onAction(row, 'detail')"
-          :style="{ color: '#909399' }"
+          :style="{ color: colors.info }"
         >
           详情
         </Button>
@@ -128,7 +129,7 @@ const onPayConfirm = (row: ImBuyerBusinessSettled) => {
           "
           type="link"
           @click="onAction(row, 'audit')"
-          :style="{ color: '#67c23a' }"
+          :style="{ color: colors.success }"
         >
           审核
         </Button>
@@ -137,11 +138,12 @@ const onPayConfirm = (row: ImBuyerBusinessSettled) => {
           title="请确认是否取消该订单，取消之后不可恢复!"
           @confirm="handleCancel(row)"
         >
-          <Button type="link" :style="{ color: '#e6a23c' }"> 取消 </Button>
+          <Button type="link" :style="{ color: colors.warning }"> 取消 </Button>
         </Popconfirm>
         <Button
           v-if="row.pay_status === '待支付' && row.examine_status === '已通过'"
           type="link"
+          :style="{ color: colors.primary }"
           @click="onPayConfirm(row)"
         >
           收款确认
