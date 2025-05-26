@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FormInstance, RadioChangeEvent } from 'ant-design-vue';
 
-import type { ImBuyerBusinessSettled } from '@vben/types';
+import type { SellerCompanyManage } from '@vben/types';
 
 import { computed, onBeforeUnmount, reactive, ref, useTemplateRef } from 'vue';
 
@@ -22,14 +22,14 @@ import {
 } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { auditPassApi, auditRejectApi } from '#/api/merchant/audit';
+import { auditPassApi, auditRejectApi } from '#/api/merchant/store_decoration';
 import { emitter } from '#/emitter';
 
 import { useModalFormSchema } from '../data';
 
 const emit = defineEmits(['success']);
 
-const formData = ref<ImBuyerBusinessSettled>();
+const formData = ref<SellerCompanyManage>();
 const getTitle = computed(() => {
   switch (formData.value?.action) {
     case 'audit': {
@@ -67,185 +67,7 @@ function resetForm() {
   formApi.resetForm();
   formApi.setValues(formData.value || {});
 }
-/**
- * address
-:
-"哈哈哈哈"
-audit_reason
-:
-""
-bank_card_no
-:
-null
-bank_deposit_name
-:
-null
-business_license_name
-:
-null
-business_license_photo
-:
-null
-city
-:
-"北京市"
-city_code
-:
-"110100"
-company_union_id
-:
-null
-contacts
-:
-"用户1234"
-contacts_phone
-:
-"15912341234"
-country
-:
-null
-country_code
-:
-null
-create_time
-:
-"2024-06-11 15:02:02"
-discount_price
-:
-0
-district
-:
-null
-district_code
-:
-null
-examine_result
-:
-""
-examine_status
-:
-"已通过"
-expire_time
-:
-""
-favourableProduct
-:
-{id: "291654b548d74aa5ad17fbb3148cdd29", favourable_product_name: "销售无忧版",…}
-favourableProductFormatter
-:
-""
-id
-:
-"7f44ad96e6ab41d0b7fb1332af049e55"
-id_card_photo_a
-:
-"ocr_card/202406/1718089198162_wx_camera_1713237806791.jpg"
-id_card_photo_b
-:
-"ocr_card/202406/1718089209277_wx_camera_1713237879129.jpg"
-information_fee
-:
-null
-latitude
-:
-null
-legal_person
-:
-"金阳"
-legal_person_id_card
-:
-"110102198010272321"
-longitude
-:
-null
-main_business
-:
-"主营个人业务"
-name
-:
-"222222"
-operator_name
-:
-"张玺柏"
-operator_user_id
-:
-"fcdb9e3dfbc44d3dac07569616c74999"
-order_time
-:
-null
-owner_id
-:
-"110cddefbb804a8992a2c6f48dbccbf6"
-pay_status
-:
-"待支付"
-payee_name
-:
-null
-payment_amount
-:
-50000
-payment_amount_all
-:
-50000
-payment_bank_card_no
-:
-"1222 0078 8010 00000400"
-payment_bank_deposit_name
-:
-"浦发银行鄂尔多斯康巴什支行"
-payment_time
-:
-null
-product_configuration_service_id
-:
-"291654b548d74aa5ad17fbb3148cdd29"
-province
-:
-"北京市"
-province_code
-:
-"110000"
-qr_code_payment_information
-:
-"https://rt-rongmeibao.oss-cn-beijing.aliyuncs.com/trade-platform-web/20240513/954c9175761e7e628df94d778d3cbcc1.png"
-refuse_reason
-:
-""
-region_id
-:
-null
-region_name
-:
-null
-self_business
-:
-false
-self_support
-:
-"个人"
-seller_qr_code
-:
-"https://rt-rongmeibao.oss-cn-beijing.aliyuncs.com/trade-platform-web/20240514/ad0ec4aa425e8c92dd578481fa56ba4d.png"
-service_fee
-:
-null
-settled_way
-:
-null
-ship_address
-:
-"北京市北京市东城区"
-title1
-:
-""
-type
-:
-1
-updated_time
-:
-"2024-06-11 15:02:14"
- */
+
 const [VbenModal, modalApi] = useVbenModal({
   async onConfirm() {
     const { valid } = await formApi.validate();
@@ -268,7 +90,7 @@ const [VbenModal, modalApi] = useVbenModal({
   },
   onOpenChange(isOpen) {
     if (isOpen) {
-      const data = modalApi.getData<ImBuyerBusinessSettled>();
+      const data = modalApi.getData<SellerCompanyManage>();
       if (data) {
         if (data.pid === 0) {
           data.pid = undefined;
@@ -287,6 +109,8 @@ const [VbenModal, modalApi] = useVbenModal({
     }
   },
   async onCancel() {
+    // modalApi.close();
+    // emit('success');
     auditReasonModal.value = true;
   },
 });

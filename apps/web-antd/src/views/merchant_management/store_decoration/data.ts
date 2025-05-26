@@ -3,9 +3,33 @@ import type { Operation, RequestListParams } from '@vben/types';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
+import { getBaseDictionaryData } from '#/api/dictionary';
+
 // 审核 弹窗表单配置
 export function useModalFormSchema(): VbenFormSchema[] {
   return [
+    // 店铺信息 分割线
+    {
+      fieldName: 'store-info',
+      component: 'CustomDivider',
+      label: '',
+      componentProps: {
+        children: '店铺信息',
+      },
+      formItemClass: 'col-span-2',
+    },
+    // 商家名称
+    {
+      fieldName: 'seller_name',
+      component: 'Input',
+      label: '商家名称',
+      componentProps: {
+        disabled: true,
+        style: {
+          width: '80%',
+        },
+      },
+    },
     // 商家类型
     {
       component: 'Select',
@@ -32,182 +56,11 @@ export function useModalFormSchema(): VbenFormSchema[] {
         },
       },
     },
-    // 营业证件信息 分割线
-    {
-      fieldName: 'divider-info',
-      component: 'CustomDivider',
-      label: '',
-      componentProps: {
-        children: '营业证件信息',
-      },
-      dependencies: {
-        if(values) {
-          return values.type === 3;
-        },
-        // 只有指定的字段改变时，才会触发
-        triggerFields: ['type'],
-      },
-      formItemClass: 'col-span-2',
-    },
-    // 营业执照
-    {
-      fieldName: 'business_license_photo',
-      component: 'CustomImage',
-      label: '营业执照',
-      componentProps: {
-        style: {
-          maxWidth: '200px',
-          maxHeight: '200px',
-        },
-      },
-      dependencies: {
-        if(values) {
-          return values.type === 3;
-        },
-        // 只有指定的字段改变时，才会触发
-        triggerFields: ['type'],
-      },
-      formItemClass: 'col-span-2',
-    },
-    // 企业名称
-    {
-      fieldName: 'name',
-      component: 'Input',
-      label: '企业名称',
-      componentProps: {
-        disabled: true,
-        style: {
-          width: '80%',
-        },
-      },
-      dependencies: {
-        if(values) {
-          return values.type === 3;
-        },
-        // 只有指定的字段改变时，才会触发
-        triggerFields: ['type'],
-      },
-    },
-
-    // 统一社会信用代码
-    {
-      fieldName: 'company_union_id',
-      component: 'Input',
-      label: '统一社会信用代码',
-      componentProps: {
-        disabled: true,
-        style: {
-          width: '80%',
-        },
-      },
-      dependencies: {
-        if(values) {
-          return values.type === 3;
-        },
-        // 只有指定的字段改变时，才会触发
-        triggerFields: ['type'],
-      },
-    },
-    // 经营地址
-    {
-      fieldName: 'ship_address',
-      component: 'Input',
-      label: '经营地址',
-      componentProps: {
-        disabled: true,
-        style: {
-          width: '80%',
-        },
-      },
-    },
-    // 详细地址
-    {
-      fieldName: 'address',
-      component: 'Input',
-      label: '详细地址',
-      componentProps: {
-        disabled: true,
-        style: {
-          width: '90%',
-        },
-      },
-      formItemClass: 'col-span-2',
-    },
-    // 法定代表人信息 分割线
-    {
-      fieldName: 'divider-info',
-      component: 'CustomDivider',
-      label: '',
-      componentProps: {
-        children: '法定代表人信息',
-      },
-      dependencies: {
-        if(values) {
-          return values.type === 3;
-        },
-        // 只有指定的字段改变时，才会触发
-        triggerFields: ['type'],
-      },
-      formItemClass: 'col-span-2',
-    },
-    // 身份证正面
-    {
-      fieldName: 'id_card_photo_a',
-      component: 'CustomImage',
-      label: '身份证正面',
-      componentProps: {
-        style: {
-          maxWidth: '200px',
-          maxHeight: '200px',
-        },
-      },
-    },
-    // 身份证背面
-    {
-      fieldName: 'id_card_photo_b',
-      component: 'CustomImage',
-      label: '身份证背面',
-      componentProps: {
-        style: {
-          maxWidth: '200px',
-          maxHeight: '200px',
-        },
-      },
-    },
-    // 店铺信息 分割线
-    {
-      fieldName: 'divider-info',
-      component: 'CustomDivider',
-      label: '',
-      componentProps: {
-        children: '店铺信息',
-      },
-      dependencies: {
-        if(values) {
-          return values.type === 3;
-        },
-        // 只有指定的字段改变时，才会触发
-        triggerFields: ['type'],
-      },
-      formItemClass: 'col-span-2',
-    },
-    // 商家名称
-    {
-      fieldName: 'name',
-      component: 'Input',
-      label: '商家名称',
-      componentProps: {
-        disabled: true,
-        style: {
-          width: '80%',
-        },
-      },
-    },
-    // 注册人手机号
+    // 联系人电话
     {
       fieldName: 'contacts_phone',
       component: 'Input',
-      label: '注册人手机号',
+      label: '联系人电话',
       componentProps: {
         disabled: true,
         style: {
@@ -215,59 +68,24 @@ export function useModalFormSchema(): VbenFormSchema[] {
         },
       },
     },
-    // 服务费用约定 分割线
+    // 店铺简介
     {
-      fieldName: 'divider-info',
-      component: 'CustomDivider',
-      label: '',
+      fieldName: 'shop_introduction',
+      component: 'Textarea',
+      label: '店铺简介',
       componentProps: {
-        children: '服务费用约定',
-      },
-      formItemClass: 'col-span-2',
-    },
-    // 服务包费
-    {
-      fieldName: 'service_fee',
-      component: 'InputNumber',
-      label: '服务包费',
-      componentProps: {
-        addonAfter: '元/车',
-        style: {
-          width: '80%',
-        },
-      },
-    },
-    // 信息技术服务费
-    {
-      fieldName: 'information_fee',
-      component: 'InputNumber',
-      label: '信息技术服务费',
-      componentProps: {
-        addonAfter: '元/吨',
-        style: {
-          width: '80%',
-        },
-      },
-    },
-    // 服务类型
-    {
-      fieldName: 'RadioGroup',
-      label: '服务类型',
-      component: 'RadioGroup',
-      componentProps: {
+        disabled: true,
         style: {
           width: '90%',
-          display: 'flex',
-          flexDirection: 'column',
         },
       },
       formItemClass: 'col-span-2',
     },
-    // 申请时间
+    // 品质保障
     {
-      fieldName: 'create_time',
+      fieldName: 'quality_assurance',
       component: 'Input',
-      label: '申请时间',
+      label: '品质保障',
       componentProps: {
         disabled: true,
         style: {
@@ -275,11 +93,11 @@ export function useModalFormSchema(): VbenFormSchema[] {
         },
       },
     },
-    // 最近处理时间
+    // 其他保障
     {
-      fieldName: 'updated_time',
+      fieldName: 'assurance_other',
       component: 'Input',
-      label: '最近处理时间',
+      label: '其他保障',
       componentProps: {
         disabled: true,
         style: {
@@ -287,143 +105,66 @@ export function useModalFormSchema(): VbenFormSchema[] {
         },
       },
     },
-    // 开店时间
+    // 店铺图标
     {
-      fieldName: 'opening_time',
-      component: 'Input',
-      label: '开店时间',
+      fieldName: 'seller_icon',
+      component: 'CustomImage',
+      label: '店铺图标',
       componentProps: {
-        disabled: true,
         style: {
-          width: '80%',
+          maxWidth: '200px',
+          maxHeight: '200px',
         },
       },
     },
-    // 店铺到期时间
+    // 宣传图片
     {
-      fieldName: 'expiration_time',
-      component: 'Input',
-      label: '店铺到期时间',
+      fieldName: 'promotional_images',
+      component: 'CustomImage',
+      label: '宣传图片',
       componentProps: {
-        disabled: true,
         style: {
-          width: '80%',
+          maxWidth: '200px',
+          maxHeight: '200px',
         },
       },
     },
-    // 订单信息 分割线
+    // 宣传视频
     {
-      fieldName: 'divider-info',
-      component: 'CustomDivider',
-      label: '',
+      fieldName: 'promotion_video',
+      component: 'CustomVideo',
+      label: '宣传视频',
       componentProps: {
-        children: '订单信息',
-      },
-      formItemClass: 'col-span-2',
-    },
-    // 订单期限
-    {
-      fieldName: 'order_time',
-      component: 'Input',
-      label: '订单期限',
-      componentProps: {
-        disabled: true,
+        controls: true,
         style: {
-          width: '80%',
+          minWidth: '320px',
+          maxHeight: '180px',
         },
-      },
-    },
-    // 支付状态
-    {
-      fieldName: 'pay_status',
-      component: 'Input',
-      label: '订单期限',
-      componentProps: {
-        disabled: true,
-        style: {
-          width: '80%',
-        },
-      },
-    },
-    // 订单价格
-    {
-      fieldName: 'payment_amount_all',
-      component: 'Input',
-      label: '订单价格',
-      componentProps: {
-        disabled: true,
-        style: {
-          width: '80%',
-        },
-      },
-      dependencies: {
-        trigger(values, form) {
-          form.setFieldValue(
-            'payment_amount_all',
-            values.RadioGroup === 1 ? 50_000 : 29_800,
-          );
-        },
-        // 只有指定的字段改变时，才会触发
-        triggerFields: ['RadioGroup'],
-      },
-    },
-    // 优惠金额
-    {
-      fieldName: 'discount_price',
-      component: 'InputNumber',
-      label: '优惠金额',
-      componentProps: {
-        addonAfter: '元/年',
-        style: {
-          width: '80%',
-        },
-      },
-    },
-    // 实付价格
-    {
-      fieldName: 'payment_amount',
-      component: 'Input',
-      label: '实付价格',
-      componentProps: {
-        disabled: true,
-        style: {
-          width: '80%',
-        },
-      },
-      dependencies: {
-        trigger(values, form) {
-          form.setFieldValue(
-            'payment_amount',
-            Math.max(0, values.payment_amount_all - values.discount_price),
-          );
-        },
-        // 只有指定的字段改变时，才会触发
-        triggerFields: ['discount_price', 'payment_amount_all'],
       },
     },
   ];
 }
 
-// 审核 弹窗表单配置
-export function usePayConfirmModalFormSchema(): VbenFormSchema[] {
+// 审核 设置标签表单
+export function useSetTagModalFormSchema(): VbenFormSchema[] {
+  const MAX_TAGS = 3;
   return [
     {
-      component: 'Input',
-      fieldName: 'payee_name',
-      label: '付款人',
+      component: 'ApiSelect',
+      fieldName: 'seller_label',
+      label: '标签',
       rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'bank_deposit_name',
-      label: '开户行名称',
-      rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'bank_card_no',
-      label: '银行卡号',
-      rules: 'required',
+      componentProps: (formModel) => ({
+        api: getBaseDictionaryData('dpbq'),
+        mode: 'multiple',
+        onChange: (value: string[]) =>
+          value.length > MAX_TAGS
+            ? (formModel.seller_label = value.slice(0, MAX_TAGS))
+            : (formModel.seller_label = value),
+        style: {
+          minWidth: '80%',
+        },
+      }),
     },
   ];
 }
@@ -502,7 +243,7 @@ export function useColumns(): VxeTableGridOptions['columns'] {
       fixed: 'right',
       title: '操作',
       slots: { default: 'operation' },
-      width: 150,
+      width: 170,
     },
   ];
 }

@@ -183,7 +183,16 @@ async function initComponentAdapter() {
     TypographyTitle,
     Image,
     CustomImage: (props, { attrs }) => {
+      if (!props.value) return h('span', '暂无图片');
       return h(Image, {
+        ...props,
+        src: `${import.meta.env.VITE_OSS_URL}${props.value}`,
+        ...attrs,
+      });
+    },
+    CustomVideo: (props, { attrs }) => {
+      if (!props.value) return h('span', '暂无视频');
+      return h('video', {
         ...props,
         src: `${import.meta.env.VITE_OSS_URL}${props.value}`,
         ...attrs,

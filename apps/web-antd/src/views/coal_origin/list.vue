@@ -14,7 +14,7 @@ import { Button } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { getCoalOriginList } from '#/api';
-import { getDictionaryData } from '#/api/dictionary';
+import { getTradeDictionaryData } from '#/api/dictionary';
 import { emitter } from '#/emitter';
 
 import {
@@ -76,7 +76,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
 });
 const onEdit = async (row: PlatformCoalLocality) => {
   // 获取矿区数据，并设置默认值
-  const miningAreaOptions = await getDictionaryData('kq')();
+  const miningAreaOptions = await getTradeDictionaryData('kq')();
   const defaultMiningArea = findCascaderPathByKey(
     miningAreaOptions as CascaderOption[],
     'value',

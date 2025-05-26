@@ -6,7 +6,7 @@ import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import { ref } from 'vue';
 
 import { z } from '#/adapter/form';
-import { getDictionaryData } from '#/api/dictionary';
+import { getTradeDictionaryData } from '#/api/dictionary';
 import { emitter } from '#/emitter';
 
 const mapData = ref<any>({});
@@ -49,7 +49,7 @@ export function useModalFormSchema(): VbenFormSchema[] {
       label: '所在矿区',
       rules: 'required',
       componentProps: {
-        api: getDictionaryData('kq'),
+        api: getTradeDictionaryData('kq'),
         style: {
           width: '80%',
         },
@@ -62,7 +62,7 @@ export function useModalFormSchema(): VbenFormSchema[] {
       label: '生产状态',
       rules: 'required',
       componentProps: {
-        api: getDictionaryData('sczt'),
+        api: getTradeDictionaryData('sczt'),
         style: {
           width: '80%',
         },
@@ -75,7 +75,7 @@ export function useModalFormSchema(): VbenFormSchema[] {
       rules: 'required',
       component: 'ApiSelect',
       componentProps: {
-        api: getDictionaryData('kcfs'),
+        api: getTradeDictionaryData('kcfs'),
         style: {
           width: '80%',
         },
@@ -89,7 +89,7 @@ export function useModalFormSchema(): VbenFormSchema[] {
       component: 'ApiSelect',
       componentProps: {
         mode: 'multiple',
-        api: getDictionaryData('rzfw'),
+        api: getTradeDictionaryData('rzfw'),
         style: {
           width: '80%',
         },
@@ -103,7 +103,7 @@ export function useModalFormSchema(): VbenFormSchema[] {
       component: 'ApiSelect',
       componentProps: {
         mode: 'multiple',
-        api: getDictionaryData('zyjy'),
+        api: getTradeDictionaryData('zyjy'),
         style: {
           width: '80%',
         },
@@ -396,7 +396,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
       component: 'ApiSelect',
       componentProps: {
         allowClear: true,
-        api: getDictionaryData('sczt'),
+        api: getTradeDictionaryData('sczt'),
       },
       fieldName: 'produce_status',
       label: '生产状态',
@@ -405,7 +405,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
       component: 'ApiSelect',
       componentProps: {
         allowClear: true,
-        api: getDictionaryData('kcfs'),
+        api: getTradeDictionaryData('kcfs'),
       },
       fieldName: 'exploit_method',
       label: '开采方式',
